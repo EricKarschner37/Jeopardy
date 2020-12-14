@@ -1,0 +1,12 @@
+td.clue, th.category {
+  height: 100px;
+  width: 250px;
+  background-color: #060CE9;
+  text-align: center;
+}
+
+p {
+  color: white;
+  font-size: 32px;
+  display: block;
+}
