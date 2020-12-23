@@ -3,10 +3,28 @@ td.clue, th.category {
   width: 250px;
   background-color: #060CE9;
   text-align: center;
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+th.category {
+  height: 200px;
 }
 
 p {
   color: white;
   font-size: 32px;
   display: block;
+}
+
+table#clue_table {
+  height: 700px;
+  width: 1800px;
+}
+
+div#clue_display {
+  background-color: #060CE9;
+  text-align: center;
+  height: 700px;
+  width: 1500px;
 }
