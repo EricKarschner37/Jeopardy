@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Square = (props) => {
   const handleClick = () => {
-    props.onSquareClick(props.row, props.col);
+    if (!props.hasBeenClicked) props.onSquareClick(props.row, props.col);
   }
 
   return (

@@ -18,13 +18,27 @@ p {
 }
 
 table#clue_table {
+  margin-top: 36px;
   height: 700px;
   width: 1800px;
+}
+
+table#player {
+  min-width: 750px;
+  margin-top: 18px;
+}
+
+td.player {
+  border: 1px solid black;
+  border-collapse: collapse;
+  border-left: 0;
+  border-right: 0;
 }
 
 div#clue_display {
   background-color: #060CE9;
   text-align: center;
   height: 700px;
-  width: 1500px;
+  width: 1800px;
+  margin-top: 36px;
 }
