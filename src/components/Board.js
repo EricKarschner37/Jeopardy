@@ -1,5 +1,5 @@
 import Square from "./Square";
-import React, { useState } from 'react';
+import React from 'react';
 
 const Board = (props) => {
   console.log(`categories: ${props.categories}`)
@@ -18,6 +18,7 @@ const Board = (props) => {
   if (props.clueShown) {
     return (
       <div id="clue_display" onClick={props.onDisplayClick}>
+        <p id="cost">${props.cost}</p>
         <p id="clue">{props.clue}</p>
         {props.answerShown && <p id="answer">{props.answer}</p>}
       </div>

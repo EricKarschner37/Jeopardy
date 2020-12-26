@@ -3,7 +3,7 @@ import PlayerDisplay from "./PlayerDisplay";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 let socket = null;
 
@@ -14,17 +14,26 @@ const Game = (props) => {
   const [clue, setClue] = useState("");
   const [answer, setAnswer] = useState("");
   const [squareClicked, setClickedSquares] = useState(Array(5).fill(Array(6).fill(false)))
+  const [players, setPlayers] = useState([]);
+  const [cost, setCost] = useState(0);
 
   const showState = (json) => {
     setClue(json.clue)
     setAnswer(json.answer)
+    setCost(json.cost)
 
-    if (json.state === 'question') {
+    setPlayers(Object.entries(json.players).map(([name, balance], i) => {return {name: name, balance: balance}}))
+
+    if (json.state === 'question' || json.state === 'buzzed') {
       setClueShown(true)
       setAnswerShown(false)
     } else if (json.state === 'answer') {
       setClueShown(true)
       setAnswerShown(true)
+    } else if (json.state === 'daily_double') {
+      setClueShown(true)
+      setAnswerShown(false)
+      setClue("Daily Double!")
     } else {
       setClueShown(false)
       setAnswerShown(false)
@@ -36,22 +45,24 @@ const Game = (props) => {
     game_num: props.number,
   }
 
-  if (!socket) {
-    socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer/server/')
-    socket.onopen = (e) => socket.send(JSON.stringify(openMessage))
-    socket.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      console.log(data);
+  useEffect(() => {
+    //Note: this is poorly done. Should use the function return API from useEffect to close and reopen socket on render
 
-      if (data.message === 'categories') {
-        console.log(`got categories: ${data.categories}`)
+    if (!socket) {
+      socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer/server/')
+      socket.onopen = (e) => socket.send(JSON.stringify(openMessage))
+      socket.onmessage = (e) => {
+        const data = JSON.parse(e.data);
+        console.log(data);
 
-        setCategories(data.categories)
-      } else if (data.message === 'state') {
-        showState(data)
+        if (data.message === 'categories') {
+          setCategories([...data.categories])
+        } else if (data.message === 'state') {
+          showState(data)
+        }
       }
     }
-  }
+  })
 
   const handleSquareClick = (row, col) => {
     revealClue(row, col);
@@ -74,10 +85,11 @@ const Game = (props) => {
   }
 
   const handleDisplayClick = () => {
+    console.log(`${answerShown} - ${clue}`)
     const data = {};
-    if (!answerShown) {
+    if (!answerShown && clue !== 'Daily Double!') {
       data.request = 'answer'
-    } else {
+    } else if (answerShown) {
       data.request = 'idle'
     }
     socket.send(JSON.stringify(data))
@@ -86,10 +98,10 @@ const Game = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col><Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} answer={answer} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick}/></Col>
+        <Col><Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} answer={answer} cost={cost} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick}/></Col>
       </Row>
       <Row>
-        <Col><PlayerDisplay players={[{name: "Eric", balance: 500}]} /></Col>
+        <Col><PlayerDisplay players={players} /></Col>
       </Row>
     </Container>
   )

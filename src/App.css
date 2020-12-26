@@ -41,4 +41,9 @@ div#clue_display {
   height: 700px;
   width: 1800px;
   margin-top: 36px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
