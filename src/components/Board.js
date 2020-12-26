@@ -16,7 +16,7 @@ const Board = (props) => {
 
   if (props.clueShown) {
     return (
-      <div id="clue_display" onClick={props.onDisplayClick}>
+      <div className="center" id="clue_display" onClick={props.onDisplayClick}>
         <p className="cost">${props.cost}</p>
         <p id="clue">{props.clue}</p>
         <p id="answer" className={!props.answerShown && 'hidden'}>{props.answer}</p>

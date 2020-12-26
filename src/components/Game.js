@@ -98,6 +98,18 @@ const Game = (props) => {
     socket.send(JSON.stringify(data))
   }
 
+  const beginDoubleJeopardy = () => {
+    console.log('begin')
+    const data = {
+      request: 'start_double',
+      game_num: props.number
+    };
+
+    setClickedSquares(Array(5).fill(Array(6).fill(false)))
+
+    socket.send(JSON.stringify(data))
+  }
+
   return (
     <Container fluid>
       <Row>
@@ -105,7 +117,7 @@ const Game = (props) => {
       </Row>
       <Row>
         <Col><PlayerDisplay players={players} /></Col>
-        <Col><Console doubleJeopardy={doubleJeopardy} /></Col>
+        <Col><Console beginDoubleJeopardy={beginDoubleJeopardy} doubleJeopardy={doubleJeopardy} /></Col>
       </Row>
     </Container>
   )
