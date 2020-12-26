@@ -17,6 +17,11 @@ p {
   display: block;
 }
 
+p.cost {
+  color: yellow;
+  flex-grow: 1;
+}
+
 table#clue_table {
   margin-top: 36px;
   height: 700px;
@@ -42,8 +47,11 @@ div#clue_display {
   width: 1800px;
   margin-top: 36px;
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
   justify-content: center;
-  align-items: center;
+  align-content: space-evenly;
+}
+
+.hidden {
+  visibility: hidden;
 }

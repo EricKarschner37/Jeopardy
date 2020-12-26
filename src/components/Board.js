@@ -2,9 +2,8 @@ import Square from "./Square";
 import React from 'react';
 
 const Board = (props) => {
-  console.log(`categories: ${props.categories}`)
 
-  const getCostForRow = (row) => (row + 1) * 200;
+  const getCostForRow = (row) => props.doubleJeopardy ? (row + 1) * 400 : (row + 1) * 200;
 
   const rows = []
   for (let i = 0; i < 5; i++) {
@@ -18,9 +17,9 @@ const Board = (props) => {
   if (props.clueShown) {
     return (
       <div id="clue_display" onClick={props.onDisplayClick}>
-        <p id="cost">${props.cost}</p>
+        <p className="cost">${props.cost}</p>
         <p id="clue">{props.clue}</p>
-        {props.answerShown && <p id="answer">{props.answer}</p>}
+        <p id="answer" className={!props.answerShown && 'hidden'}>{props.answer}</p>
       </div>
     )
   }

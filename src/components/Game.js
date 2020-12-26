@@ -1,5 +1,6 @@
 import Board from "./Board";
 import PlayerDisplay from "./PlayerDisplay";
+import Console from "./Console.js";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
@@ -16,11 +17,13 @@ const Game = (props) => {
   const [squareClicked, setClickedSquares] = useState(Array(5).fill(Array(6).fill(false)))
   const [players, setPlayers] = useState([]);
   const [cost, setCost] = useState(0);
+  const [doubleJeopardy, setDoubleJeopardy] = useState(false)
 
   const showState = (json) => {
     setClue(json.clue)
     setAnswer(json.answer)
     setCost(json.cost)
+    setDoubleJeopardy(json.double_jeopardy)
 
     setPlayers(Object.entries(json.players).map(([name, balance], i) => {return {name: name, balance: balance}}))
 
@@ -34,6 +37,7 @@ const Game = (props) => {
       setClueShown(true)
       setAnswerShown(false)
       setClue("Daily Double!")
+      setCost("???")
     } else {
       setClueShown(false)
       setAnswerShown(false)
@@ -85,7 +89,6 @@ const Game = (props) => {
   }
 
   const handleDisplayClick = () => {
-    console.log(`${answerShown} - ${clue}`)
     const data = {};
     if (!answerShown && clue !== 'Daily Double!') {
       data.request = 'answer'
@@ -98,10 +101,11 @@ const Game = (props) => {
   return (
     <Container fluid>
       <Row>
-        <Col><Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} answer={answer} cost={cost} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick}/></Col>
+        <Col><Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} answer={answer} cost={cost} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick} doubleJeopardy={doubleJeopardy}/></Col>
       </Row>
       <Row>
         <Col><PlayerDisplay players={players} /></Col>
+        <Col><Console doubleJeopardy={doubleJeopardy} /></Col>
       </Row>
     </Container>
   )
