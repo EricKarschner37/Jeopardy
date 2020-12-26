@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts bulid"
+    "build": "react-scripts build"
   },
   "browserslist": {
     "production": [
@@ -24,5 +24,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "host"
 }
