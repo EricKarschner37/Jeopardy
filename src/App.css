@@ -11,10 +11,19 @@ th.category {
   height: 200px;
 }
 
+h1 {
+  margin-bottom: 48px;
+}
+
 p {
   color: white;
   font-size: 32px;
   display: block;
+}
+
+p.normal {
+  color: black;
+  font-size: 24px;
 }
 
 p.cost {
