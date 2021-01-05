@@ -112,12 +112,12 @@ const Game = (props) => {
 
   return (
     <Container fluid>
-      <Row>
+      <Row className="center">
         <Col><Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} answer={answer} cost={cost} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick} doubleJeopardy={doubleJeopardy}/></Col>
       </Row>
       <Row>
-        <Col><PlayerDisplay players={players} /></Col>
-        <Col><Console beginDoubleJeopardy={beginDoubleJeopardy} doubleJeopardy={doubleJeopardy} /></Col>
+        <Col className="center"><PlayerDisplay players={players} /></Col>
+        <Col className="center"><Console beginDoubleJeopardy={beginDoubleJeopardy} doubleJeopardy={doubleJeopardy} /></Col>
       </Row>
     </Container>
   )
