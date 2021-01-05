@@ -11,7 +11,7 @@ const Join = (props) => {
         <Form.Control onChange={props.onChange} value={props.name} type="text" placeholder="Name" />
         <Form.Text className="text-muted">Name should not contain spaces or non-alphanumeric characters.</Form.Text>
       </Form.Group>
-      <Button variant="primary" type="submit">Connect</Button>
+      <Button variant="success" type="submit">Connect</Button>
     </Form>
   )
 }
