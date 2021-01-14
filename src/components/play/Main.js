@@ -39,7 +39,7 @@ const Interface = (props) => {
       const data = {request: 'register', name: name};
       socket.send(JSON.stringify(data));
     }
-    e.preventDefault();
+    if (e) e.preventDefault();
     finalName = name;
   }
 
@@ -71,10 +71,14 @@ const Interface = (props) => {
         }
       }
       console.log("socket created")
+
+      socket.onclose = (e) => {
+        connect()
+      }
     }
   })
 
-  if (!connected) {
+  if (!connected && finalName) {
     return (
       <Join onChange={handleNameChange} name={name} onSubmit={connect}/>
     )
