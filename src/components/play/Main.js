@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Join from './Join';
 import Wager from './Wager';
+import { useCookies } from 'react-cookie';
 
 let socket = null;
 let finalName = "";
@@ -14,10 +15,13 @@ const Interface = (props) => {
   const [cost, setCost] = useState("");
   const [wager, setWager] = useState(0);
   const [needWager, setNeedWager] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['player-cookies'])
+
+  if (cookies.hasOwnProperty('name') && cookies.name != name) setName(cookies.name);
 
   const showState = (json) => {
     setClue(json.state === 'daily_double' ? "Daily Double!" : json.clue)
-    setAnswer(json.state === 'answer' ? json.answer : "")
+    setAnswer(json.state === 'answer' ? (json.answer || json.idle) : "")
     setNeedWager(json.state === 'daily_double' && json.player === finalName)
     console.log(name)
   }
@@ -36,6 +40,7 @@ const Interface = (props) => {
 
   const connect = (e) => {
     if (isValid(name) && socket) {
+      setCookie('name', name);
       const data = {request: 'register', name: name};
       socket.send(JSON.stringify(data));
     }
