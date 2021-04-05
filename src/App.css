@@ -1,14 +1,8 @@
 td.clue, th.category {
-  height: 100px;
-  width: 250px;
   background-color: #060CE9;
   text-align: center;
   border: 1px solid white;
   border-collapse: collapse;
-}
-
-th.category {
-  height: 200px;
 }
 
 h1 {
@@ -32,9 +26,9 @@ p.cost {
 }
 
 table#clue_table {
-  margin-top: 36px;
-  height: 700px;
-  width: 1800px;
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 table#player {
@@ -51,9 +45,8 @@ td.player {
 
 div#clue_display {
   background-color: #060CE9;
-  height: 700px;
-  width: 1800px;
-  margin-top: 36px;
+  width: 100%;
+  height: 100%;
 }
 
 .hidden {
@@ -61,12 +54,39 @@ div#clue_display {
 }
 
 .center {
-  display: grid;
-  justify-content: center;
-  align-content: space-evenly;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 div.console {
   margin: 18px;
+}
+
+Container {
+  display: grid;
+  width: 100%;
+  height: auto;
+}
+
+.container {
+  max-width: 95%;
+  height: 100%;
+  width: 100%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  align-self: center;
+  justify-self: center;
+  margin-top: 32px;
+}
+
+.board {
+  height: 70vh;
+}
+
+div#root {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }

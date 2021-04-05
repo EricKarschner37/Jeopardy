@@ -24,7 +24,7 @@ function App() {
           </Container>
         </Route>
         <Route path="/">
-          <Game number={6599}/>
+          <Game number={3819} />
         </Route>
       </Switch>
     </Router>
