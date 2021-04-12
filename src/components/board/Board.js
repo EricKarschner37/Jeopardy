@@ -15,11 +15,14 @@ const Board = (props) => {
   }
 
   if (props.clueShown) {
+    console.log(props.answerShown)
+    console.log(props.response)
     return (
       <div className="center" id="clue_display" onClick={props.onDisplayClick}>
         <p className="cost">${props.cost}</p>
         <p id="clue">{props.clue}</p>
-        <p id="answer" className={!props.answerShown && 'hidden'}>{props.answer}</p>
+        {props.answerShown && <p id="answer">{props.response}</p>}
+        {!props.answerShown && <p id="answer" className={'hidden'}>{props.response}</p>}
       </div>
     )
   }

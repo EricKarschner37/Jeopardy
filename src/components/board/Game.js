@@ -13,7 +13,7 @@ const Game = (props) => {
   const [clueShown, setClueShown] = useState(false);
   const [answerShown, setAnswerShown] = useState(false);
   const [clue, setClue] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [response, setResponse] = useState("");
   const [squareClicked, setClickedSquares] = useState(Array(5).fill(Array(6).fill(false)))
   const [players, setPlayers] = useState([]);
   const [cost, setCost] = useState(0);
@@ -21,19 +21,20 @@ const Game = (props) => {
 
   const showState = (json) => {
     setClue(json.clue)
-    setAnswer(json.answer)
+    setResponse(json.response)
     setCost(json.cost)
     setDoubleJeopardy(json.double_jeopardy)
 
     setPlayers(Object.entries(json.players).map(([name, balance], i) => {return {name: name, balance: balance}}))
 
-    if (json.state === 'question' || json.state === 'buzzed') {
+    if (json.name === 'clue') {
       setClueShown(true)
       setAnswerShown(false)
-    } else if (json.state === 'answer') {
+    } else if (json.name === 'response') {
+      console.log("Showing correct response")
       setClueShown(true)
       setAnswerShown(true)
-    } else if (json.state === 'daily_double') {
+    } else if (json.name === 'daily_double') {
       setClueShown(true)
       setAnswerShown(false)
       setClue("Daily Double!")
@@ -53,7 +54,7 @@ const Game = (props) => {
     //Note: this is poorly done. Should use the function return API from useEffect to close and reopen socket on render
 
     if (!socket) {
-      socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer/server/')
+      socket = new WebSocket(`ws://localhost:8080/ws/board`)
       socket.onopen = (e) => socket.send(JSON.stringify(openMessage))
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
@@ -91,9 +92,9 @@ const Game = (props) => {
   const handleDisplayClick = () => {
     const data = {};
     if (!answerShown && clue !== 'Daily Double!') {
-      data.request = 'answer'
+      data.request = 'response'
     } else if (answerShown) {
-      data.request = 'idle'
+      data.request = 'board'
     }
     socket.send(JSON.stringify(data))
   }
@@ -113,7 +114,7 @@ const Game = (props) => {
   return (
     <Container className="center">
       <Row className="board center">
-        <Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} answer={answer} cost={cost} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick} doubleJeopardy={doubleJeopardy}/>
+        <Board categories={categories} clueShown={clueShown} answerShown={answerShown} clue={clue} response={response} cost={cost} squareClicked={squareClicked} onSquareClick={handleSquareClick} onDisplayClick={handleDisplayClick} doubleJeopardy={doubleJeopardy}/>
       </Row>
       <Row>
         <Col><PlayerDisplay players={players} /></Col>
