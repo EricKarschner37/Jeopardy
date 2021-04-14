@@ -9,7 +9,9 @@ This project uses `yarn` to manage dependencies. It uses React and React Bootstr
 ### Related Repositories
 
 Server - https://github.com/EricKarschner37/Go-Jeopardy
+
 Android App - https://github.com/EricKarschner37/JeopardyApp
+
 Old (Django) implementation - https://github.com/EricKarschner37/JeopardyDjango
 
 ### Planned Future Work
