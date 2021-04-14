@@ -58,12 +58,13 @@ const Interface = (props) => {
 
   const buzz = () => {
     if (socket) {
+	  console.log(socket.readyState)
       socket.send(JSON.stringify({request: 'buzz'}))
     }
   }
 
   useEffect(() => {
-    if (!socket) {
+    if (!socket || socket.readyState != 1) {
       socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer')
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
