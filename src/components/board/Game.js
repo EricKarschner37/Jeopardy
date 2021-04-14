@@ -23,7 +23,7 @@ const Game = (props) => {
     setClue(json.clue)
     setResponse(json.response)
     setCost(json.cost)
-    setDoubleJeopardy(json.double_jeopardy)
+    setDoubleJeopardy(json.double)
 
 	setPlayers(Object.entries(json.players).map(([name, obj]) => {return {"name": name, "balance": obj.Points}}))
 

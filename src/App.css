@@ -90,3 +90,7 @@ div#root {
   display: flex;
   align-items: center;
 }
+
+div.buzzed {
+  background-color: lightgreen;
+}

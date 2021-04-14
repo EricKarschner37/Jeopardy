@@ -15,6 +15,7 @@ const Interface = (props) => {
   const [cost, setCost] = useState("");
   const [wager, setWager] = useState(0);
   const [needWager, setNeedWager] = useState(false);
+  const [buzzed, setBuzzed] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['player-cookies'])
 
   if (cookies.hasOwnProperty('name') && cookies.name != name) setName(cookies.name);
@@ -23,6 +24,11 @@ const Interface = (props) => {
     setClue(json.name === 'daily_double' ? "Daily Double!" : json.clue)
     setAnswer(json.name === 'response' || json.name === 'board' ? (json.response) : "")
     setNeedWager(json.name === 'daily_double' && json.selected_player === finalName)
+	if (json.name === 'clue' && json.selected_player === finalName) {
+      setBuzzed(true)
+	} else {
+	  setBuzzed(false)
+	}
     console.log(name)
   }
 
@@ -91,9 +97,11 @@ const Interface = (props) => {
 
   return (
     <div className="center">
-      <h1 class="name text-weight-bold">{name}</h1>
-      <p class="normal font-weight-normal">{clue}</p>
-      <p class="normal font-weight-bold">{answer}</p>
+	  <div className={buzzed && "buzzed"}>
+		<h1 className="name text-weight-bold">{name}</h1>
+		<p className="normal font-weight-normal">{clue}</p>
+		<p className="normal font-weight-bold">{answer}</p>
+	  </div>
       {!needWager && <Button variant="primary" onClick={buzz}>Buzz</Button>}
       {needWager && <Wager onChange={handleWagerChange} wager={wager} onSubmit={submitWager} />}
     </div>
