@@ -25,7 +25,7 @@ const Game = (props) => {
     setCost(json.cost)
     setDoubleJeopardy(json.double_jeopardy)
 
-    setPlayers(Object.entries(json.players).map(([name, balance], i) => {return {name: name, balance: balance}}))
+	setPlayers(Object.entries(json.players).map(([name, obj]) => {return {"name": name, "balance": obj.Points}}))
 
     if (json.name === 'clue') {
       setClueShown(true)

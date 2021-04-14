@@ -20,9 +20,9 @@ const Interface = (props) => {
   if (cookies.hasOwnProperty('name') && cookies.name != name) setName(cookies.name);
 
   const showState = (json) => {
-    setClue(json.state === 'daily_double' ? "Daily Double!" : json.clue)
-    setAnswer(json.state === 'answer' ? (json.answer || json.idle) : "")
-    setNeedWager(json.state === 'daily_double' && json.player === finalName)
+    setClue(json.name === 'daily_double' ? "Daily Double!" : json.clue)
+    setAnswer(json.name === 'response' || json.name === 'board' ? (json.response) : "")
+    setNeedWager(json.name === 'daily_double' && json.selected_player === finalName)
     console.log(name)
   }
 
@@ -64,16 +64,15 @@ const Interface = (props) => {
 
   useEffect(() => {
     if (!socket) {
-      socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer/')
+      socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer')
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
 
         if (data.message === 'state') {
           showState(data);
-        } else if (data.message === 'connected') {
           setConnected(true)
-        }
+		}
       }
       console.log("socket created")
 
