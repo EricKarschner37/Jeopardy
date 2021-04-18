@@ -5,6 +5,14 @@ td.clue, th.category {
   border-collapse: collapse;
 }
 
+td.clue {
+  cursor: pointer;
+}
+
+td.clicked {
+  cursor: initial;
+}
+
 h1 {
   margin-bottom: 48px;
 }
@@ -23,6 +31,11 @@ p.normal {
 p.cost {
   color: yellow;
   flex-grow: 1;
+}
+
+p.clicked {
+  color: #060CE9;
+  cursor: default;
 }
 
 table#clue_table {
@@ -93,4 +106,14 @@ div#root {
 
 div.buzzed {
   background-color: lightgreen;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }

@@ -5,9 +5,19 @@ const Square = (props) => {
     if (!props.hasBeenClicked) props.onSquareClick(props.row, props.col);
   }
 
+  let pClasses = "cost noselect";
+  if (props.hasBeenClicked) {
+    pClasses += " clicked";
+  }
+
+  let tdClasses = "clue noselect";
+  if (props.hasBeenClicked) {
+    tdClasses += " clicked";
+  }
+
   return (
-    <td className="clue" onClick={handleClick}>
-      {!props.hasBeenClicked && <p className="cost">{props.cost}</p>}
+    <td className={tdClasses} onClick={handleClick}>
+      <p className={pClasses}>{props.cost}</p>
     </td>
   )
 }

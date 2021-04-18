@@ -30,7 +30,7 @@ const Board = (props) => {
     <table id="clue_table">
       <tbody>
         <tr>
-          {props.categories.map(category => <th className="category"><p><strong>{category}</strong></p></th>)}
+          {props.categories.map(category => <th className="category noselect"><p><strong>{category}</strong></p></th>)}
         </tr>
         {rows.map((row) => {
             return <tr>{row}</tr>
