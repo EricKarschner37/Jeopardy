@@ -9,8 +9,12 @@ td.clue {
   cursor: pointer;
 }
 
-td.clicked {
-  cursor: initial;
+.clicked {
+  cursor: default;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 h1 {
@@ -35,7 +39,6 @@ p.cost {
 
 p.clicked {
   color: #060CE9;
-  cursor: default;
 }
 
 table#clue_table {

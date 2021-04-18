@@ -18,11 +18,11 @@ const Board = (props) => {
     console.log(props.answerShown)
     console.log(props.response)
     return (
-      <div className="center" id="clue_display" onClick={props.onDisplayClick}>
-        <p className="cost">${props.cost}</p>
-        <p id="clue">{props.clue}</p>
-        {props.answerShown && <p id="answer">{props.response}</p>}
-        {!props.answerShown && <p id="answer" className={'hidden'}>{props.response}</p>}
+      <div className="center clickable" id="clue_display" onClick={props.onDisplayClick}>
+        <p className="cost noselect">${props.cost}</p>
+        <p id="clue" className="noselect clickable">{props.clue}</p>
+        {props.answerShown && <p id="answer" className="noselect clickable">{props.response}</p>}
+        {!props.answerShown && <p id="answer" className="hidden noselect clickable">{props.response}</p>}
       </div>
     )
   }
