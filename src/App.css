@@ -3,6 +3,7 @@ td.clue, th.category {
   text-align: center;
   border: 1px solid white;
   border-collapse: collapse;
+  padding: 8px;
 }
 
 td.clue {
