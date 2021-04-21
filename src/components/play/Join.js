@@ -8,8 +8,17 @@ const Join = (props) => {
     <Form onSubmit={props.onSubmit}>
       <Form.Group controlId="name">
         <Form.Label>Name</Form.Label>
-        <Form.Control onChange={props.onChange} value={props.name} type="text" placeholder="Name" />
-        <Form.Text className="text-muted">Name should not contain spaces or non-alphanumeric characters.</Form.Text>
+        <Form.Control
+          required
+          onChange={props.onChange}
+          value={props.name}
+          type="text"
+          placeholder="Name"
+        />
+        <Form.Text
+          className="text-muted">Name should not contain spaces or non-alphanumeric characters.
+        </Form.Text>
+        <Form.Control.Feedback>Invalid Name</Form.Control.Feedback>
       </Form.Group>
       <Button variant="success" type="submit">Connect</Button>
     </Form>

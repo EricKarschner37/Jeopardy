@@ -9,7 +9,6 @@ let finalName = "";
 
 const Interface = (props) => {
   const [connected, setConnected] = useState(false);
-  const [name, setName] = useState("");
   const [clue, setClue] = useState("");
   const [answer, setAnswer] = useState("");
   const [cost, setCost] = useState("");
@@ -17,8 +16,7 @@ const Interface = (props) => {
   const [needWager, setNeedWager] = useState(false);
   const [buzzed, setBuzzed] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['player-cookies'])
-
-  if (cookies.hasOwnProperty('name') && cookies.name != name) setName(cookies.name);
+  const [name, setName] = useState((cookies.hasOwnProperty('name')) ? cookies.name : "");
 
   const showState = (json) => {
     setClue(json.name === 'daily_double' ? "Daily Double!" : json.clue)
@@ -37,6 +35,7 @@ const Interface = (props) => {
   }
 
   const handleNameChange = (event) => {
+    setCookie('name', event.target.value);
     setName(event.target.value);
   }
 
@@ -46,7 +45,6 @@ const Interface = (props) => {
 
   const connect = (e) => {
     if (isValid(name) && socket) {
-      setCookie('name', name);
       const data = {request: 'register', name: name};
       socket.send(JSON.stringify(data));
     }
