@@ -17,6 +17,7 @@ const Interface = (props) => {
   const [buzzed, setBuzzed] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['player-cookies'])
   const [name, setName] = useState((cookies.hasOwnProperty('name')) ? cookies.name : "");
+  const [error, setError] = useState("");
 
   const showState = (json) => {
     setClue(json.name === 'daily_double' ? "Daily Double!" : json.clue)
@@ -44,10 +45,16 @@ const Interface = (props) => {
   }
 
   const connect = (e) => {
-    if (isValid(name) && socket) {
+    if (isValid(name) && socket && socket.readyState == 1) {
+      setError("");
       const data = {request: 'register', name: name};
       socket.send(JSON.stringify(data));
+    } else if (!isValid(name)) {
+      setError("Invalid name");
+    } else {
+      setError("Something went wrong. Please refresh the page and try again.")
     }
+
     if (e) e.preventDefault();
     finalName = name;
   }
@@ -62,34 +69,36 @@ const Interface = (props) => {
 
   const buzz = () => {
     if (socket) {
-	  console.log(socket.readyState)
+	    console.log(socket.readyState)
       socket.send(JSON.stringify({request: 'buzz'}))
     }
   }
 
   useEffect(() => {
-    if (!socket || socket.readyState != 1) {
-      socket = new WebSocket('wss://jeopardy.karschner.studio/ws/buzzer')
-      socket.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        console.log(data);
-
-        if (data.message === 'state') {
-          showState(data);
-          setConnected(true)
-		}
+    console.log("useEffect: Establishing socket connection")
+    socket = new WebSocket(`wss://${window.location.host}/ws/buzzer`)
+    socket.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      if (data.message === "state") {
+        showState(data);
       }
-      console.log("socket created")
-
-      socket.onclose = (e) => {
-        connect()
-      }
+      setConnected(true);
     }
-  })
 
-  if (!connected && !finalName) {
+    if (finalName != "") {
+      connect()
+    }
+
+    //Cleanup code
+    return () => {
+      setConnected(false);
+      socket.close();
+    };
+  }, [name]);
+
+  if (!connected || !finalName) {
     return (
-      <Join onChange={handleNameChange} name={name} onSubmit={connect}/>
+      <Join error={error} onChange={handleNameChange} name={name} onSubmit={connect}/>
     )
   }
 
