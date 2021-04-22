@@ -76,7 +76,7 @@ const Interface = (props) => {
 
   useEffect(() => {
     console.log("useEffect: Establishing socket connection")
-    socket = new WebSocket(`wss://${window.location.host}/ws/buzzer`)
+    socket = new WebSocket(`wss://jeopardy.karschner.studio/ws/buzzer`)
     socket.onmessage = (e) => {
       const data = JSON.parse(e.data);
       if (data.message === "state") {
