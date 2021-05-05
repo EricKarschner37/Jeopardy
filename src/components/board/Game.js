@@ -45,17 +45,11 @@ const Game = (props) => {
     }
   }
 
-  const openMessage = {
-    request: 'start_game',
-    game_num: props.number,
-  }
-
   useEffect(() => {
     //Note: this is poorly done. Should use the function return API from useEffect to close and reopen socket on render
 
     if (!socket) {
       socket = new WebSocket(`wss://${window.location.host}/ws/board`)
-      socket.onopen = (e) => socket.send(JSON.stringify(openMessage))
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);

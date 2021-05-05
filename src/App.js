@@ -4,7 +4,8 @@ import {
   Switch,
   Route,
   Link
-} from "react-router-dom"
+} from "react-router-dom";
+import Launch from './components/Launch';
 
 import logo from './logo.svg';
 import Game from './components/board/Game';
@@ -13,6 +14,9 @@ import Container from 'react-bootstrap/Container';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
+const launchGame = () => {
+}
 
 function App() {
   return (
@@ -23,9 +27,12 @@ function App() {
             <Interface />
           </Container>
         </Route>
-        <Route path="/">
-          <Game number={6989} />
+        <Route path="/board">
+          <Game />
         </Route>
+		<Route path="/">
+		  <Launch />
+		</Route>
       </Switch>
     </Router>
   );
