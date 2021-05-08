@@ -1,9 +1,11 @@
 import React from 'react';
+import {isMobile} from 'react-device-detect';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect,
 } from "react-router-dom";
 import Launch from './components/Launch';
 
@@ -31,7 +33,7 @@ function App() {
           <Game />
         </Route>
 		<Route path="/">
-		  <Launch />
+		  {isMobile ? <Redirect to="/play" /> : <Launch />}
 		</Route>
       </Switch>
     </Router>
