@@ -11,7 +11,7 @@ import Launch from './components/Launch';
 
 import logo from './logo.svg';
 import Game from './components/board/Game';
-import Interface from './components/play/Main';
+import PlayerScreen from './components/play/PlayerScreen';
 import Container from 'react-bootstrap/Container';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,7 +26,7 @@ function App() {
       <Switch>
         <Route path="/play">
           <Container className="d-flex justify-content-center">
-            <Interface />
+            <PlayerScreen />
           </Container>
         </Route>
         <Route path="/board">

@@ -6,13 +6,16 @@ import Container from "react-bootstrap/Container";
 
 const Join = (props) => {
   return (
-    <Form onSubmit={props.onSubmit}>
+    <Form onSubmit={(e) => {
+      e.preventDefault();
+      props.onSubmit();
+    }}>
       {props.error && <Alert variant="danger">{props.error}</Alert>}
       <Form.Group controlId="name">
         <Form.Label>Name</Form.Label>
         <Form.Control
           required
-          onChange={props.onChange}
+          onChange={(e) => { props.onNameChange(e.target.value) }}
           value={props.name}
           type="text"
           placeholder="Name"
