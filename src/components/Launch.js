@@ -12,7 +12,8 @@ const Launch = (props) => {
 		const msg = {
 			"num": parseInt(num)
 		};
-		fetch("https://jeopardy.karschner.studio/start", {
+		fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/start`, {
+        mode: 'no-cors',
 				method: 'POST',
 				body: JSON.stringify(msg),
 		})

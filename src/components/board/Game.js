@@ -49,7 +49,7 @@ const Game = (props) => {
     //Note: this is poorly done. Should use the function return API from useEffect to close and reopen socket on render
 
     if (!socket) {
-      socket = new WebSocket(`wss://${window.location.host}/ws/board`)
+      socket = new WebSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/board`)
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
         console.log(data);
