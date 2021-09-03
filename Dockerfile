@@ -10,6 +10,6 @@ FROM nginx:1.21-alpine
 COPY --from=build-deps /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 80
+EXPOSE 8080
 RUN chmod 777 /var -R
 CMD ["nginx", "-g", "daemon off;"]
