@@ -6,10 +6,8 @@ COPY . ./
 ENV REACT_APP_WEBSOCKET_SERVER="go-jeopardy-jeopardy.apps.okd4.csh.rit.edu"
 RUN yarn build
 
-FROM nginx:1.21-alpine
-COPY --from=build-deps /app/build /usr/share/nginx/html
-RUN rm /etc/nginx/conf.d/default.conf
-COPY ./nginx/nginx.conf /etc/nginx/conf.d
+FROM cr.galenguyer.com/nginx/nginx:latest
+COPY --from=build-deps /app/build /app
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 8080
-RUN chmod 777 /var -R
 CMD ["nginx", "-g", "daemon off;"]
