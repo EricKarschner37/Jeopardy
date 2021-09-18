@@ -5,7 +5,7 @@ const PlayerDisplay = (props) => {
   return (
     <table id="player">
       <tr><th className="player">Player</th><th className="player">Balance</th></tr>
-      {props.players.map((player) => <Player name={player.name} balance={player.balance} />)}
+			{props.players.sort((a, b) => a.balance - b.balance).map((player) => <Player name={player.name} balance={player.balance} />)}
     </table>
   )
 }
