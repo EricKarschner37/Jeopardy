@@ -17,7 +17,7 @@ const Play = (props) => {
     setAnswer(json.name === 'response' || json.name === 'board' ? json.response : "")
     setBuzzed(json.name === 'clue' && json.selected_player === props.name)
     setNeedWager(json.name === 'daily_double' && json.selected_player === props.name)
-    setNeedWager(needWager || (json.name === 'final'))
+//    setNeedWager(needWager || (json.name === 'final'))
   }
 
   const isValid = (name) => {
