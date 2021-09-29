@@ -18,22 +18,6 @@ const Game = (props) => {
   	const [cost, setCost] = useState(0);
   	const [doubleJeopardy, setDoubleJeopardy] = useState(false);
 	const [connected, setConnected] = useState(false);
-  	const socket = useSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/board`, true, (socket) => {
-  	  socket.onmessage = (e) => {
-  	    const data = JSON.parse(e.data);
-
-  	    if (data.message === 'categories') {
-  	      setCategories([...data.categories])
-  	    } else if (data.message === 'state') {
-  	      showState(data)
-  	    }
-  	  }
-  	  setConnected(true)
-  	});
-
-	if (!connected) {
-		return <h1>Loading...</h1>
-	}
 
   	const showState = (json) => {
   	  setClue(json.clue)
@@ -60,6 +44,23 @@ const Game = (props) => {
   	    setAnswerShown(false)
   	  }
   	}
+
+  	const socket = useSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/board`, true, (socket) => {
+  	  socket.onmessage = (e) => {
+  	    const data = JSON.parse(e.data);
+
+  	    if (data.message === 'categories') {
+  	      setCategories([...data.categories])
+  	    } else if (data.message === 'state') {
+  	      showState(data)
+  	    }
+  	  }
+  	  setConnected(true)
+  	});
+
+	if (!connected) {
+		return <h1>Loading...</h1>
+	}
 
   	const handleSquareClick = (row, col) => {
   	  revealClue(row, col);
