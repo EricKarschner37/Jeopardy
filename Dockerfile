@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . ./
-ENV REACT_APP_WEBSOCKET_SERVER="go-jeopardy-jeopardy.apps.okd4.csh.rit.edu"
+ENV REACT_APP_WEBSOCKET_SERVER="jeopardy.karschner.studio"
 RUN yarn build
 
 FROM cr.galenguyer.com/nginx/nginx:latest
