@@ -12,9 +12,9 @@ const Launch = (props) => {
 		const msg = {
 			"num": parseInt(num)
 		};
-		const url = `https://${process.env.REACT_APP_WEBSOCKET_SERVER}/start`;
+		const url = `https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start`;
 		console.log(url);
-		fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/start`, {
+		fetch(url, {
 				method: 'POST',
 				body: JSON.stringify(msg),
 		})
