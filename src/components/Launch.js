@@ -12,12 +12,15 @@ const Launch = (props) => {
 		const msg = {
 			"num": parseInt(num)
 		};
+		const url = `https://${process.env.REACT_APP_WEBSOCKET_SERVER}/start`;
+		console.log(url);
 		fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/start`, {
-        mode: 'no-cors',
 				method: 'POST',
 				body: JSON.stringify(msg),
 		})
-			.then(data => window.location.assign(`https://${window.location.host}/board`));
+					.then(response => {console.log(response); return response})
+					.then(response => response.json())
+					.then(json => window.location.assign(`https://${window.location.host}/${json['gameNum']}/board`));
 	}
 
 	return (

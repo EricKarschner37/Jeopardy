@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Join from './Join';
 import Play from './Play';
-import useSocket from '../../sockets'
+import useSocket from '../../sockets';
+import { useParams } from 'react-router-dom';
 
 const isValidName = (name) => {
   const re = /^[a-z\d-_\s]+$/i;
@@ -12,7 +13,8 @@ const PlayerScreen = (props) => {
   const [name, setName] = useState("")
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [connected, setConnected] = useState(false)
-  const socket = useSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/buzzer`, hasSubmitted, (socket) => {
+  const { num } = useParams();
+  const socket = useSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/buzzer`, hasSubmitted, (socket) => {
     setConnected(true)
     const data = {request: 'register', name: name};
     socket.send(JSON.stringify(data));

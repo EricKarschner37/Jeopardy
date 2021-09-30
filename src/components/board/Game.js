@@ -5,7 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import React, { useState, useEffect } from 'react';
-import useSocket from '../../sockets'
+import useSocket from '../../sockets';
+import { useParams } from "react-router-dom";
 
 const Game = (props) => {
 	const [categories, setCategories] = useState([]);
@@ -18,6 +19,8 @@ const Game = (props) => {
   	const [cost, setCost] = useState(0);
   	const [doubleJeopardy, setDoubleJeopardy] = useState(false);
 	const [connected, setConnected] = useState(false);
+	
+	const { num } = useParams();
 
   	const showState = (json) => {
   	  setClue(json.clue)
@@ -45,7 +48,7 @@ const Game = (props) => {
   	  }
   	}
 
-  	const socket = useSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/board`, true, (socket) => {
+  	const socket = useSocket(`wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`, true, (socket) => {
   	  socket.onmessage = (e) => {
   	    const data = JSON.parse(e.data);
 

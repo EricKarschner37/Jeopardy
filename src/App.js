@@ -24,12 +24,17 @@ function App() {
   return (
     <Router>
       <Switch>
+		<Route path="/:num/play">
+		  <Container className="d-flex justify-content-center">
+			<PlayerScreen />
+		  </Container>
+		</Route>
         <Route path="/play">
           <Container className="d-flex justify-content-center">
             <PlayerScreen />
           </Container>
         </Route>
-        <Route path="/board">
+			<Route path="/:num/board">
           <Game />
         </Route>
 		<Route path="/">
