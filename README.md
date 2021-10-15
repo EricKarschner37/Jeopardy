@@ -1,9 +1,10 @@
 # Jeopardy
+
 ![The beginning board state](images/full_board.png)
 
 This is the frontend for a self-hosted, open source implementation of the popular game show Jeopardy. This repository includes the React frontend for the game board and a page for users to join the game and participate.
 
-### Installation 
+### Installation
 
 This repository uses **Docker** for easy installation.
 

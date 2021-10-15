@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from "react";
 
 const Square = (props) => {
   const handleClick = () => {
     if (!props.hasBeenClicked) props.onSquareClick(props.row, props.col);
-  }
+  };
 
   let pClasses = "cost noselect";
   if (props.hasBeenClicked) {
@@ -19,7 +19,7 @@ const Square = (props) => {
     <td className={tdClasses} onClick={handleClick}>
       <p className={pClasses}>{props.cost}</p>
     </td>
-  )
-}
+  );
+};
 
 export default Square;

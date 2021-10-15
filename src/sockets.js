@@ -1,25 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export default function useSocket(url, connect = true, onConnect = (socket) => {}) {
+export default function useSocket(
+  url,
+  connect = true,
+  onConnect = () => {}
+) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     if (connect) {
-      console.log(`WebSocket: Connect ${url}`)
+      console.log(`WebSocket: Connect ${url}`);
 
-      let socket = new WebSocket(url)
-      socket.onopen = function(event) {
-        onConnect(socket)
-        console.log("Websocket: Connected")
-      }
-      setSocket(socket)
+      const socket = new WebSocket(url);
+      socket.onopen = function () {
+        onConnect(socket);
+        console.log("Websocket: Connected");
+      };
+      setSocket(socket);
 
       return () => {
-        socket.close()
-        setSocket(null)
-      }
+        socket.close();
+        setSocket(null);
+      };
     }
-  }, [connect])
+  }, [connect]);
 
-  return socket
+  return socket;
 }
