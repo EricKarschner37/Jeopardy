@@ -6,10 +6,12 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Launch from "./components/Launch";
+import Index from "./components/index";
 
 import Game from "./components/board/Game";
+import Launch from "./components/Launch";
 import PlayerScreen from "./components/play/PlayerScreen";
+import { Join } from "./components/play/Join";
 import Container from "react-bootstrap/Container";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,26 +19,27 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/:num/play">
-          <Container className="d-flex justify-content-center">
-            <PlayerScreen />
-          </Container>
-        </Route>
-        <Route path="/play">
-          <Container className="d-flex justify-content-center">
-            <PlayerScreen />
-          </Container>
-        </Route>
-        <Route path="/:num/board">
-          <Game />
-        </Route>
-        <Route path="/">
-          {isMobile ? <Redirect to="/play" /> : <Launch />}
-        </Route>
-      </Switch>
-    </Router>
+    <Container className="d-flex justify-content-center">
+      <Router>
+        <Switch>
+          <Route path="/:num/play">
+              <PlayerScreen />
+          </Route>
+          <Route path="/play">
+            <Join />
+          </Route>
+          <Route path="/:num/board">
+            <Game />
+          </Route>
+          <Route path="/board">
+            <Launch />
+          </Route>
+          <Route path="/">
+            {isMobile ? <Redirect to="/play" /> : <Index />}
+          </Route>
+        </Switch>
+      </Router>
+    </Container>
   );
 }
 

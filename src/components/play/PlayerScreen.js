@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Join from "./Join";
+import { Register } from "./Join";
 import Play from "./Play";
 import useSocket from "../../sockets";
 import { useParams } from "react-router-dom";
@@ -37,7 +37,7 @@ const PlayerScreen = () => {
       return <h1>Loading...</h1>;
     }
   } else {
-    return <Join name={name} onNameChange={setName} onSubmit={joinGame} />;
+    return <Register name={name} onNameChange={setName} onSubmit={joinGame} />;
   }
 };
 

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-//import { useCookies } from 'react-cookie';
-//
-//let finalName = "";
-//const url = "https://jeopardy.karschner.studio/ws/buzzer";
 
 const Play = (props) => {
   const [clue, setClue] = useState("Welcome to Jeopardy!");

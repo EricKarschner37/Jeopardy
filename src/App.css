@@ -81,12 +81,6 @@ div.console {
   margin: 18px;
 }
 
-Container {
-  display: grid;
-  width: 100%;
-  height: auto;
-}
-
 .container {
   max-width: 95%;
   height: 100%;

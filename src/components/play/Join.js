@@ -1,14 +1,37 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Alert from "react-bootstrap/Alert";
+import React, { useEffect, useState } from "react";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const Join = (props) => {
+export const Join = () => {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/games`)
+      .then(response => response.json())
+      .then(data => setGames(data));
+  }, []);
+
+  const buttons = games.sort().map((game) => (
+    <Row style={{'padding-bottom': '8px'}} key={game}><Col>
+      <Link to={`/${game}/play`}>
+        <Button>Game #{game}</Button>
+      </Link>
+      <br/>
+    </Col></Row>
+  ));
+  return (
+    <Container>
+      {buttons}
+    </Container>
+  )
+}
+
+export const Register = (props) => {
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        props.onSubmit();
+        props.onSubmit(props.game);
       }}
     >
       {props.error && <Alert variant="danger">{props.error}</Alert>}
@@ -34,5 +57,3 @@ const Join = (props) => {
     </Form>
   );
 };
-
-export default Join;
