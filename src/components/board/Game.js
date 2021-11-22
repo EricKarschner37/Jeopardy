@@ -40,7 +40,6 @@ const Game = (props) => {
       setClueShown(true);
       setAnswerShown(false);
     } else if (json.name === "response") {
-      console.log("Showing correct response");
       setClueShown(true);
       setAnswerShown(true);
     } else if (json.name === "daily_double") {
@@ -48,6 +47,16 @@ const Game = (props) => {
       setAnswerShown(false);
       setClue("Daily Double!");
       setCost("???");
+    } else if (json.name === "final") {
+      setClue(json.category);
+      setCost("???");
+      setClueShown(true);
+      setAnswerShown(false);
+    } else if (json.name === "final_clue") {
+      setClue(json.clue);
+      setCost("???");
+      setClueShown(true);
+      setAnswerShown(false);
     } else {
       setClueShown(false);
       setAnswerShown(false);
@@ -60,6 +69,7 @@ const Game = (props) => {
     (socket) => {
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
+        console.log(data)
 
         if (data.message === "categories") {
           setCategories([...data.categories]);
@@ -153,13 +163,13 @@ const Game = (props) => {
           <PlayerDisplay players={players} />
         </Col>
         <Col>
-          {doubleJeopardy && (
+          {!doubleJeopardy && (
             <Console
               beginNextRound={beginDoubleJeopardy}
               nextRound="Double Jeopardy"
             />
           )}
-          {!doubleJeopardy && (
+          {doubleJeopardy && (
             <Console
               beginNextRound={beginFinalJeopardy}
               nextRound="Final Jeopardy"

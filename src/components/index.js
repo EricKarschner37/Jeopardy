@@ -7,8 +7,7 @@ const Index = () => {
     <Container>
       <Row><Col> <h3>Welcome to Jeopardy!</h3> </Col></Row>
       <Row><Col> <Link to="/play"><Button>Join a game</Button></Link> </Col></Row>
-    <br/>
-    <h5>Or</h5>
+      <Row><Col> <h5>Or</h5> </Col></Row>
       <Row><Col> <Link to="/board"><Button>Host a game</Button></Link> </Col></Row>
     </Container>
   )
