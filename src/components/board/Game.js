@@ -160,7 +160,7 @@ const Game = (props) => {
       </Row>
       <Row>
         <Col>
-          <PlayerDisplay players={players} />
+          <PlayerDisplay socket={socket} players={players} />
         </Col>
         <Col>
           {!doubleJeopardy && (

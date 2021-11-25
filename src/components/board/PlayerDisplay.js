@@ -20,7 +20,7 @@ const PlayerDisplay = (props) => {
       {props.players
         .sort((a, b) => a.balance - b.balance)
         .map((player) => (
-          <Player key={player.name} remove={removePlayer} name={player.name} balance={player.balance} />
+          <Player socket={props.socket} key={player.name} remove={removePlayer} name={player.name} balance={player.balance} />
         ))}
     </table>
   );
