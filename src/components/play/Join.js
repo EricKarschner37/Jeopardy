@@ -7,24 +7,36 @@ export const Join = () => {
 
   useEffect(() => {
     fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/games`)
-      .then(response => response.json())
-      .then(data => setGames(data));
+      .then((response) => response.json())
+      .then((data) => setGames(data));
   }, []);
 
   const buttons = games.sort().map((game) => (
-    <Row style={{'padding-bottom': '8px'}} key={game}><Col>
-      <Link to={`/${game}/play`}>
-        <Button>Game #{game}</Button>
-      </Link>
-      <br/>
-    </Col></Row>
+    <>
+      <Row style={{ "padding-bottom": "8px" }} key={game}>
+        <Col>
+          <Link to={`/${game}/play`}>
+            <Button>Game #{game}</Button>
+          </Link>
+          <br />
+        </Col>
+      </Row>
+    </>
   ));
   return (
     <Container>
+      <Row>
+        <h3>Choose the Game Number from the board</h3>
+      </Row>
+      <Row>
+        <p style={{ color: "grey", fontSize: "12px" }}>
+          Don&apos;t have a game number? No problem! Just ask your host
+        </p>
+      </Row>
       {buttons}
     </Container>
-  )
-}
+  );
+};
 
 export const Register = (props) => {
   return (

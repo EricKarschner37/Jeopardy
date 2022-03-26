@@ -10,13 +10,20 @@ const Play = (props) => {
   const [needResponse, setNeedResponse] = useState(false);
 
   const showState = (json) => {
-    setClue(json.name === "daily_double" ? "Daily Double!" : json.name === "final" ? json.category : json.clue);
+    setClue(
+      json.name === "daily_double"
+        ? "Daily Double!"
+        : json.name === "final"
+        ? json.category
+        : json.clue
+    );
     setAnswer(
       json.name === "response" || json.name === "board" ? json.response : ""
     );
     setBuzzed(json.name === "clue" && json.selected_player === props.name);
     setNeedWager(
-      json.name === "final" || (json.name === "daily_double" && json.selected_player === props.name)
+      json.name === "final" ||
+        (json.name === "daily_double" && json.selected_player === props.name)
     );
     setNeedResponse(json.name === "final_clue");
   };
@@ -43,14 +50,25 @@ const Play = (props) => {
   };
 
   return (
-    <div className="center container">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "start",
+      }}
+      className="center container"
+    >
       <div className={buzzed && "buzzed"}>
         <h1 className="name text-weight-bold">{props.name}</h1>
         <p className="normal font-weight-normal">{clue}</p>
         <p className="normal font-weight-bold">{answer}</p>
       </div>
       {!needWager && !needResponse && (
-        <Button variant="primary" onClick={buzz}>
+        <Button
+          variant="primary"
+          style={{ width: "100%", flexGrow: "1" }}
+          onClick={buzz}
+        >
           Buzz
         </Button>
       )}

@@ -19,11 +19,14 @@ import "./App.css";
 
 function App() {
   return (
-    <Container className="d-flex justify-content-center">
+    <Container
+      style={{ height: "90%" }}
+      className="d-flex justify-content-center"
+    >
       <Router>
         <Switch>
           <Route path="/:num/play">
-              <PlayerScreen />
+            <PlayerScreen />
           </Route>
           <Route path="/play">
             <Join />

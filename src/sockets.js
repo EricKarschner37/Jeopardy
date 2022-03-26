@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function useSocket(
-  url,
-  connect = true,
-  onConnect = () => {}
-) {
+export default function useSocket(url, connect = true, onConnect = () => {}) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {

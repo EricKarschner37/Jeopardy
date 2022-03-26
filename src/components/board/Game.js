@@ -69,7 +69,7 @@ const Game = (props) => {
     (socket) => {
       socket.onmessage = (e) => {
         const data = JSON.parse(e.data);
-        console.log(data)
+        console.log(data);
 
         if (data.message === "categories") {
           setCategories([...data.categories]);
