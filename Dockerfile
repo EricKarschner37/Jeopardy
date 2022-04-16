@@ -6,7 +6,7 @@ COPY . ./
 ENV REACT_APP_WEBSOCKET_SERVER="jeopardy.karschner.studio"
 RUN yarn build
 
-FROM cr.galenguyer.com/nginx/nginx:latest
+FROM nginxinc/nginx-unprivileged:latest
 COPY --from=build-deps /app/build /app
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 8080
