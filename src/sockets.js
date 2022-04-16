@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-export default function useSocket(url, connect = true, onConnect = () => {}) {
+export default function useSocket(url, enabled = true, onConnect = () => {}) {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    if (connect) {
+    if (enabled && (!socket || socket.readyState === 3)) {
       console.log(`WebSocket: Connect ${url}`);
 
       const socket = new WebSocket(url);
@@ -13,13 +13,12 @@ export default function useSocket(url, connect = true, onConnect = () => {}) {
         console.log("Websocket: Connected");
       };
       setSocket(socket);
-
-      return () => {
-        socket.close();
-        setSocket(null);
-      };
     }
-  }, [connect]);
+    return () => {
+      socket?.close();
+      setSocket(null);
+    };
+  }, [enabled, socket]);
 
   return socket;
 }

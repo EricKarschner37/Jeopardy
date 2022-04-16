@@ -1,35 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { Flex } from "./lib/Flex";
 
 const Index = () => {
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h3>Welcome to Jeopardy!</h3>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Link to="/play">
-            <Button>Join a game</Button>
-          </Link>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <h5>Or</h5>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Link to="/board">
-            <Button>Host a game</Button>
-          </Link>
-        </Col>
-      </Row>
-    </Container>
+    <Flex flexDirection="column">
+      <h3>Welcome to Jeopardy!</h3>
+      <Flex justifyContent="space-evenly">
+        <Link to="/play">
+          <Button>Join a game</Button>
+        </Link>
+        <h5>Or</h5>
+        <Link to="/board">
+          <Button>Host a game</Button>
+        </Link>
+      </Flex>
+    </Flex>
   );
 };
 
