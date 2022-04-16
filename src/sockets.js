@@ -9,16 +9,12 @@ export default function useSocket(url, enabled = true, onConnect = () => {}) {
 
       const socket = new WebSocket(url);
       socket.onopen = function () {
-        onConnect(socket);
         console.log("Websocket: Connected");
+        onConnect(socket);
       };
       setSocket(socket);
     }
-    return () => {
-      socket?.close();
-      setSocket(null);
-    };
-  }, [enabled, socket]);
+  }, [enabled, socket?.readyState]);
 
   return socket;
 }
