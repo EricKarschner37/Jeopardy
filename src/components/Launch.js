@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
-import { Flex } from "../components/lib/Flex";
+import { LoadingState } from "../components/lib/LoadingState";
 
 const Launch = (props) => {
   const [num, setNum] = useState("");
@@ -34,16 +33,7 @@ const Launch = (props) => {
   };
 
   if (isLaunching) {
-    return (
-      <Flex flexDirection="column" alignItems="flex-start">
-        <h3>Fetching game #{num}</h3>
-        <Spinner
-          animation="border"
-          role="status"
-          style={{ alignSelf: "center" }}
-        />
-      </Flex>
-    );
+    return <LoadingState title={`Fetching game#${num}`} />;
   }
 
   return (

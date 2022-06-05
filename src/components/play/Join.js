@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Flex } from "../lib/Flex";
+import { LoadingState } from "../lib/LoadingState";
 
 export const Join = () => {
   const [games, setGames] = useState([]);
@@ -16,29 +17,26 @@ export const Join = () => {
       });
   }, []);
 
-  const buttons = games.sort().map((game) => (
-    <>
-      <Link to={`/${game}/play`}>
+  const buttons = games
+    .sort()
+    .reverse()
+    .map((game) => (
+      <Link key={game} style={{ marginBottom: "4dp" }} to={`/${game}/play`}>
         <Button>Game #{game}</Button>
       </Link>
-      <br />
-    </>
-  ));
+    ));
+
+  if (gamesIsLoading) {
+    return <LoadingState title="Loading games" />;
+  }
+
   return (
-    <Flex flexDirection="column" alignItems="flex-start">
+    <Flex direction="column" alignItems="flex-start">
       <h3>Choose the Game Number from the board</h3>
       <p style={{ color: "grey", fontSize: "12px" }}>
         Don&apos;t have a game number? No problem! Just ask your host
       </p>
-      {gamesIsLoading ? (
-        <Spinner
-          style={{ alignSelf: "center" }}
-          animation="border"
-          role="status"
-        />
-      ) : (
-        buttons
-      )}
+      {buttons}
     </Flex>
   );
 };

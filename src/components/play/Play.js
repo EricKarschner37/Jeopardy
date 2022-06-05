@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { usePlayerSocket } from "../../util/playerSocket";
+import { LoadingState } from "../lib/LoadingState";
 
 const Play = (props) => {
   const [clue, setClue] = useState("Welcome to Jeopardy!");
@@ -34,7 +35,7 @@ const Play = (props) => {
   const socket = usePlayerSocket(props.name, props.gameNum, handleState);
 
   if (!socket.connected) {
-    return <h1>Loading...</h1>;
+    return <LoadingState title={`Connecting to game #${props.gameNum}`} />;
   }
 
   return (

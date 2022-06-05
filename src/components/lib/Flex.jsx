@@ -1,5 +1,23 @@
 import React from "react";
 
-export const Flex = (props) => {
-  return <div style={{ ...props, display: "flex" }}>{props.children}</div>;
+export const Flex = ({
+  direction = "column",
+  justify,
+  align: alignItems,
+  children,
+  ...rest
+}) => {
+  return (
+    <div
+      style={{
+        ...rest,
+        display: "flex",
+        justifyItems: justify,
+        alginContent: alignItems,
+        flexDirection: direction,
+      }}
+    >
+      {children}
+    </div>
+  );
 };
