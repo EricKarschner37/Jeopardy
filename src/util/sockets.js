@@ -1,6 +1,11 @@
 import * as React from "react";
 
-export default function useSocket(url, enabled = true, onConnect = () => {}, onMessage) {
+export default function useSocket(
+  url,
+  enabled = true,
+  onConnect = () => {},
+  onMessage
+) {
   const [queuedRequests, setQueuedRequests] = React.useState([]);
 
   const queueSend = (msg) => setQueuedRequests([...queuedRequests, msg]);
@@ -18,25 +23,33 @@ export default function useSocket(url, enabled = true, onConnect = () => {}, onM
     }
   }, [url, enabled]);
 
-  const connected = React.useMemo(() => socket?.readyState === 1, [socket?.readyState]);
-  const sendObject = React.useMemo(() => connected ? (obj) =>
-    socket.send(JSON.stringify(obj)) : (obj) => queueSend(JSON.stringify(obj)),
+  const connected = React.useMemo(
+    () => socket?.readyState === 1,
+    [socket?.readyState]
+  );
+  const sendObject = React.useMemo(
+    () =>
+      connected
+        ? (obj) => socket.send(JSON.stringify(obj))
+        : (obj) => queueSend(JSON.stringify(obj)),
     [connected, socket.send]
   );
 
   React.useEffect(() => {
     if (connected && queuedRequests.length > 0) {
-      sendObject(queuedRequests[0])
-      setQueuedRequests(queuedRequests.slice(1))
+      sendObject(queuedRequests[0]);
+      setQueuedRequests(queuedRequests.slice(1));
     }
   }, [queuedRequests, connected]);
 
   console.log(JSON.stringify(socket));
   console.log(connected);
 
-  return React.useMemo(() => ({
+  return React.useMemo(
+    () => ({
       sendObject,
-      connected
-    }),[sendObject, connected]
+      connected,
+    }),
+    [sendObject, connected]
   );
 }

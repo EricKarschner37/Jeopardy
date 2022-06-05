@@ -60,8 +60,21 @@ const Play = (props) => {
           Buzz
         </Button>
       )}
-      {needWager && <Input wager title="Wager" hint="Amount" onSubmit={socket.submitWager} />}
-      {needResponse && <Input title="Response" hint="Response" onSubmit={socket.submitResponse} />}
+      {needWager && (
+        <Input
+          wager
+          title="Wager"
+          hint="Amount"
+          onSubmit={socket.submitWager}
+        />
+      )}
+      {needResponse && (
+        <Input
+          title="Response"
+          hint="Response"
+          onSubmit={socket.submitResponse}
+        />
+      )}
     </div>
   );
 };

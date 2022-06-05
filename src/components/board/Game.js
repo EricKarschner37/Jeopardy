@@ -66,7 +66,7 @@ const Game = (props) => {
     const data = JSON.parse(e.data);
     console.log(data);
 
-    if (data.message === 'categories') {
+    if (data.message === "categories") {
       setCategories(data.categories);
     } else if (data.message === "state") {
       showState(data);
