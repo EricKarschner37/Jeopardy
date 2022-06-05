@@ -8,7 +8,7 @@ const PlayerDisplay = (props) => {
       name: name,
     };
 
-    props.socket.send(JSON.stringify(data));
+    props.socket.sendObject(data);
   };
 
   return (

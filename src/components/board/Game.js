@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import React, { useState } from "react";
-import useSocket from "../../sockets";
+import useSocket from "../../util/sockets";
 import { useParams } from "react-router-dom";
 
 const Game = (props) => {
@@ -20,7 +20,6 @@ const Game = (props) => {
   const [players, setPlayers] = useState([]);
   const [cost, setCost] = useState(0);
   const [doubleJeopardy, setDoubleJeopardy] = useState(false);
-  const [connected, setConnected] = useState(false);
 
   const { num } = useParams();
 
@@ -63,25 +62,25 @@ const Game = (props) => {
     }
   };
 
+  const handleMessage = React.useCallback((e) => {
+    const data = JSON.parse(e.data);
+    console.log(data);
+
+    if (data.message === 'categories') {
+      setCategories(data.categories);
+    } else if (data.message === "state") {
+      showState(data);
+    }
+  });
+
   const socket = useSocket(
     `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
     true,
-    (socket) => {
-      socket.onmessage = (e) => {
-        const data = JSON.parse(e.data);
-        console.log(data);
-
-        if (data.message === "categories") {
-          setCategories([...data.categories]);
-        } else if (data.message === "state") {
-          showState(data);
-        }
-      };
-      setConnected(true);
-    }
+    () => {},
+    handleMessage
   );
 
-  if (!connected) {
+  if (!socket.connected) {
     return <h1>Loading...</h1>;
   }
 
@@ -108,7 +107,7 @@ const Game = (props) => {
       row: row,
       col: col,
     };
-    socket.send(JSON.stringify(data));
+    socket.sendObject(data);
   };
 
   const handleDisplayClick = () => {
@@ -118,7 +117,7 @@ const Game = (props) => {
     } else if (answerShown) {
       data.request = "board";
     }
-    socket.send(JSON.stringify(data));
+    socket.sendObject(data);
   };
 
   const beginDoubleJeopardy = () => {
@@ -130,7 +129,7 @@ const Game = (props) => {
 
     setClickedSquares(Array(5).fill(Array(6).fill(false)));
 
-    socket.send(JSON.stringify(data));
+    socket.sendObject(data);
   };
 
   const beginFinalJeopardy = () => {
@@ -139,7 +138,7 @@ const Game = (props) => {
       game_num: props.number,
     };
 
-    socket.send(JSON.stringify(data));
+    socket.sendObject(data);
   };
 
   return (

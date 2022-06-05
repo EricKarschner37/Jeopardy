@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { usePlayerSocket } from "../../util/playerSocket";
 
 const Play = (props) => {
   const [clue, setClue] = useState("Welcome to Jeopardy!");
@@ -28,26 +29,13 @@ const Play = (props) => {
     setNeedResponse(json.name === "final_clue");
   };
 
-  const buzz = () => {
-    props.socket.send(JSON.stringify({ request: "buzz" }));
-  };
+  const handleState = (state) => showState(JSON.parse(state));
 
-  const submitWager = (wager) => {
-    props.socket.send(
-      JSON.stringify({ request: "wager", amount: parseInt(wager) })
-    );
-  };
+  const socket = usePlayerSocket(props.name, props.gameNum, handleState);
 
-  const submitResponse = (response) => {
-    props.socket.send(
-      JSON.stringify({ request: "response", response: response })
-    );
-  };
-
-  props.socket.onmessage = (e) => {
-    console.log(e);
-    showState(JSON.parse(e.data));
-  };
+  if (!socket.connected) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div
@@ -67,13 +55,13 @@ const Play = (props) => {
         <Button
           variant="primary"
           style={{ width: "100%", flexGrow: "1" }}
-          onClick={buzz}
+          onClick={socket.buzz}
         >
           Buzz
         </Button>
       )}
-      {needWager && <Input wager hint="Amount" onSubmit={submitWager} />}
-      {needResponse && <Input hint="Response" onSubmit={submitResponse} />}
+      {needWager && <Input wager title="Wager" hint="Amount" onSubmit={socket.submitWager} />}
+      {needResponse && <Input title="Response" hint="Response" onSubmit={socket.submitResponse} />}
     </div>
   );
 };
@@ -88,7 +76,7 @@ const Input = (props) => {
         props.onSubmit(input);
       }}
     >
-      <Form.Label>Wager</Form.Label>
+      <Form.Label>{props.title}</Form.Label>
       <Form.Control
         onChange={(e) => {
           setInput(e.target.value);
