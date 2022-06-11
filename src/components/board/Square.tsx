@@ -6,9 +6,15 @@ type SquareProps = {
   cost: number;
   hasBeenClicked: boolean;
   onSquareClick: (row: number, col: number) => void;
-}
+};
 
-const Square = ({ hasBeenClicked, onSquareClick, row, col, cost }: SquareProps) => {
+const Square = ({
+  hasBeenClicked,
+  onSquareClick,
+  row,
+  col,
+  cost,
+}: SquareProps) => {
   const handleClick = () => {
     if (!hasBeenClicked) onSquareClick(row, col);
   };

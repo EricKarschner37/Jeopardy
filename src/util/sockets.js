@@ -23,11 +23,11 @@ export default function useSocket(
       };
       socket.current.onclose = () => {
         setIsConnected(false);
-      }
+      };
     }
   }, [url, enabled, isConnected]);
 
-  console.log(socket.current?.readyState)
+  console.log(socket.current?.readyState);
 
   const sendObject = React.useMemo(
     () =>

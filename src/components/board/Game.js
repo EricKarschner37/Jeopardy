@@ -76,7 +76,9 @@ const Game = (props) => {
   const socket = useSocket(
     `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
     true,
-    () => {console.log('socket opened!')},
+    () => {
+      console.log("socket opened!");
+    },
     handleMessage
   );
 
