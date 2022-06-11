@@ -27,7 +27,7 @@ const Launch = (props) => {
       .then((response) => response.json())
       .then((json) =>
         window.location.assign(
-          `https://${window.location.host}/${json["gameNum"]}/board`
+          `${window.location.protocol}//${window.location.host}/${json["gameNum"]}/board`
         )
       );
   };

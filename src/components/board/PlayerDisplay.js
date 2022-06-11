@@ -21,7 +21,6 @@ const PlayerDisplay = (props) => {
         .sort((a, b) => a.balance - b.balance)
         .map((player) => (
           <Player
-            socket={props.socket}
             key={player.name}
             remove={removePlayer}
             name={player.name}

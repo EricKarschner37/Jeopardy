@@ -34,7 +34,7 @@ const Play = (props) => {
 
   const socket = usePlayerSocket(props.name, props.gameNum, handleState);
 
-  if (!socket.connected) {
+  if (!socket.isConnected) {
     return <LoadingState title={`Connecting to game #${props.gameNum}`} />;
   }
 

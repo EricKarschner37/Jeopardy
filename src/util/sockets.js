@@ -7,49 +7,50 @@ export default function useSocket(
   onMessage
 ) {
   const [queuedRequests, setQueuedRequests] = React.useState([]);
+  const socket = React.useRef(null);
+  const [isConnected, setIsConnected] = React.useState(false);
 
   const queueSend = (msg) => setQueuedRequests([...queuedRequests, msg]);
 
-  const socket = React.useMemo(() => {
-    if (enabled) {
-      const sock = new WebSocket(url);
-      sock.onmessage = onMessage;
-      sock.onopen = () => {
+  React.useEffect(() => {
+    console.log("should only appear once");
+    if (enabled && !isConnected) {
+      socket.current = new WebSocket(url);
+      socket.current.onmessage = onMessage;
+      socket.current.onopen = () => {
+        setIsConnected(true);
         onConnect(socket);
       };
-      return sock;
-    } else {
-      return null;
+      socket.current.onclose = () => {
+        setIsConnected(false);
+      }
     }
-  }, [url, enabled]);
+  }, [url, enabled, isConnected]);
 
-  const connected = React.useMemo(
-    () => socket?.readyState === 1,
-    [socket?.readyState]
-  );
+  console.log(socket.current?.readyState)
+
   const sendObject = React.useMemo(
     () =>
-      connected
-        ? (obj) => socket.send(JSON.stringify(obj))
+      isConnected
+        ? (obj) => socket.current.send(JSON.stringify(obj))
         : (obj) => queueSend(JSON.stringify(obj)),
-    [connected, socket.send]
+    [isConnected, socket.current.send]
   );
 
   React.useEffect(() => {
-    if (connected && queuedRequests.length > 0) {
+    if (isConnected && queuedRequests.length > 0) {
       sendObject(queuedRequests[0]);
       setQueuedRequests(queuedRequests.slice(1));
     }
-  }, [queuedRequests, connected]);
+  }, [queuedRequests, isConnected]);
 
-  console.log(JSON.stringify(socket));
-  console.log(connected);
+  console.log(isConnected);
 
   return React.useMemo(
     () => ({
       sendObject,
-      connected,
+      isConnected,
     }),
-    [sendObject, connected]
+    [sendObject, isConnected]
   );
 }

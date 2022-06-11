@@ -14,12 +14,12 @@ const Console = (props) => {
       >
         Begin {props.nextRound}
       </button>
-      <a href={`https://${window.location.host}/${num}/play`}>
+      <a href={`${window.location.protocol}//${window.location.host}/${num}/play`}>
         <div className="center">
           <QRCode
             includeMargin={true}
             className="center"
-            value={`https://${window.location.host}/${num}/play`}
+            value={`${window.location.protocol}//${window.location.host}/${num}/play`}
           />
         </div>
       </a>
