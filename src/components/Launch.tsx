@@ -4,12 +4,11 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { LoadingState } from "../components/lib/LoadingState";
 
-const Launch = (props) => {
+const Launch = ({ error }: { error?: string }) => {
   const [num, setNum] = useState("");
   const [isLaunching, setIsLaunching] = useState(false);
 
-  const startGame = (e) => {
-    e.preventDefault();
+  const startGame = () => {
     const msg = {
       num: parseInt(num),
     };
@@ -37,8 +36,13 @@ const Launch = (props) => {
   }
 
   return (
-    <Form onSubmit={startGame}>
-      {props.error && <Alert variant="danger">{props.error}</Alert>}
+    <Form
+      onSubmit={(e) => {
+        e.preventDefault();
+        startGame();
+      }}
+    >
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form.Group controlId="number">
         <Form.Label>Game Number</Form.Label>
         <Form.Control

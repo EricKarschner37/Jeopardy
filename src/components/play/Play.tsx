@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import { GameState } from "components/play/play.types";
+import * as React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { usePlayerSocket } from "../../util/playerSocket";
 import { LoadingState } from "../lib/LoadingState";
 
-const Play = (props) => {
-  const [clue, setClue] = useState("Welcome to Jeopardy!");
-  const [answer, setAnswer] = useState("");
-  const [buzzed, setBuzzed] = useState(false);
-  const [needWager, setNeedWager] = useState(false);
-  const [needResponse, setNeedResponse] = useState(false);
+type PlayProps = {
+  name: string;
+  gameNum: string;
+};
 
-  const showState = (json) => {
+const Play = ({ name, gameNum }: PlayProps) => {
+  const [clue, setClue] = React.useState("Welcome to Jeopardy!");
+  const [answer, setAnswer] = React.useState("");
+  const [buzzed, setBuzzed] = React.useState(false);
+  const [needWager, setNeedWager] = React.useState(false);
+  const [needResponse, setNeedResponse] = React.useState(false);
+
+  const showState = (json: GameState) => {
     setClue(
       json.name === "daily_double"
         ? "Daily Double!"
@@ -22,20 +28,18 @@ const Play = (props) => {
     setAnswer(
       json.name === "response" || json.name === "board" ? json.response : ""
     );
-    setBuzzed(json.name === "clue" && json.selected_player === props.name);
+    setBuzzed(json.name === "clue" && json.selected_player === name);
     setNeedWager(
       json.name === "final" ||
-        (json.name === "daily_double" && json.selected_player === props.name)
+        (json.name === "daily_double" && json.selected_player === name)
     );
     setNeedResponse(json.name === "final_clue");
   };
 
-  const handleState = (state) => showState(JSON.parse(state));
-
-  const socket = usePlayerSocket(props.name, props.gameNum, handleState);
+  const socket = usePlayerSocket({ name, gameNum, handleState: showState });
 
   if (!socket.isConnected) {
-    return <LoadingState title={`Connecting to game #${props.gameNum}`} />;
+    return <LoadingState title={`Connecting to game #${gameNum}`} />;
   }
 
   return (
@@ -47,15 +51,15 @@ const Play = (props) => {
       }}
       className="center container"
     >
-      <div className={buzzed && "buzzed"}>
-        <h1 className="name text-weight-bold">{props.name}</h1>
+      <div className={buzzed ? "buzzed" : undefined}>
+        <h1 className="name text-weight-bold">{name}</h1>
         <p className="normal font-weight-normal">{clue}</p>
         <p className="normal font-weight-bold">{answer}</p>
       </div>
       {!needWager && !needResponse && (
         <Button
           variant="primary"
-          style={{ width: "100%", flexGrow: "1" }}
+          style={{ width: "100%", flexGrow: 1 }}
           onClick={socket.buzz}
         >
           Buzz
@@ -66,7 +70,7 @@ const Play = (props) => {
           wager
           title="Wager"
           hint="Amount"
-          onSubmit={socket.submitWager}
+          onSubmit={(wager) => socket.submitWager(parseInt(wager))}
         />
       )}
       {needResponse && (
@@ -80,24 +84,31 @@ const Play = (props) => {
   );
 };
 
-const Input = (props) => {
-  const [input, setInput] = useState("");
+type InputProps = {
+  title: string;
+  hint: string;
+  wager?: boolean;
+  onSubmit: (input: string) => void;
+};
+
+const Input = ({ title, hint, wager = false, onSubmit }: InputProps) => {
+  const [input, setInput] = React.useState("");
 
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        props.onSubmit(input);
+        onSubmit(input);
       }}
     >
-      <Form.Label>{props.title}</Form.Label>
+      <Form.Label>{title}</Form.Label>
       <Form.Control
         onChange={(e) => {
           setInput(e.target.value);
         }}
         value={input}
-        type={props.wager && "number"}
-        placeholder={props.hint}
+        type={wager ? "number" : undefined}
+        placeholder={hint}
       />
       <Button type="submit" variant="success" className="bottom">
         Submit

@@ -1,9 +1,31 @@
 import Square from "./Square";
 import React from "react";
+import { GameState } from "components/play/play.types";
 
-const Board = (props) => {
-  const getCostForRow = (row) =>
-    props.doubleJeopardy ? (row + 1) * 400 : (row + 1) * 200;
+type BoardProps = {
+  categories: string[];
+  clueShown: boolean;
+  answerShown: boolean;
+  onSquareClick: (row: number, col: number) => void;
+  onDisplayClick: () => void;
+  squareClicked: boolean[][];
+  cost: number | string;
+} & Pick<GameState, "clue" | "response" | "double">;
+
+const Board = ({
+  double,
+  categories,
+  clueShown,
+  answerShown,
+  clue,
+  response,
+  cost,
+  onSquareClick,
+  onDisplayClick,
+  squareClicked,
+}: BoardProps) => {
+  const getCostForRow = (row: number) =>
+    double ? (row + 1) * 400 : (row + 1) * 200;
 
   const rows = [];
   for (let i = 0; i < 5; i++) {
@@ -12,47 +34,47 @@ const Board = (props) => {
       clues.push(
         <Square
           cost={getCostForRow(i)}
-          onSquareClick={props.onSquareClick}
+          onSquareClick={onSquareClick}
           row={i}
           col={j}
-          hasBeenClicked={props.squareClicked[i][j]}
+          hasBeenClicked={squareClicked[i][j]}
         />
       );
     }
     rows.push(clues);
   }
 
-  if (props.clueShown) {
-    console.log(props.answerShown);
-    console.log(props.response);
+  if (clueShown) {
     return (
       <div
         className="center clickable"
         id="clue_display"
-        onClick={props.onDisplayClick}
+        onClick={onDisplayClick}
       >
-        <p className="cost noselect">${props.cost}</p>
+        <p className="cost noselect">${cost}</p>
         <p id="clue" className="noselect clickable">
-          {props.clue}
+          {clue}
         </p>
-        {props.answerShown && (
+        {answerShown && (
           <p id="answer" className="noselect clickable">
-            {props.response}
+            {response}
           </p>
         )}
-        {!props.answerShown && (
+        {!answerShown && (
           <p id="answer" className="hidden noselect clickable">
-            {props.response}
+            {response}
           </p>
         )}
       </div>
     );
   }
+
+  console.log(JSON.stringify(categories));
   return (
     <table id="clue_table">
       <tbody>
         <tr>
-          {props.categories.map((category) => (
+          {categories.map((category) => (
             <th key={category} className="category noselect">
               <p>
                 <strong>{category}</strong>

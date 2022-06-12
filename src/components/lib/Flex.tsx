@@ -1,4 +1,11 @@
-import React from "react";
+import * as React from "react";
+
+export type FlexProps = {
+  direction: "column" | "row";
+  justify: "flex-start" | "flex-end" | "center";
+  align: "flex-start" | "flex-end" | "center";
+  children: React.ReactNode;
+} & any;
 
 export const Flex = ({
   direction = "column",
@@ -6,7 +13,7 @@ export const Flex = ({
   align: alignItems,
   children,
   ...rest
-}) => {
+}: FlexProps) => {
   return (
     <div
       style={{

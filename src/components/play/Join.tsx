@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Flex } from "../lib/Flex";
 import { LoadingState } from "../lib/LoadingState";
 
 export const Join = () => {
-  const [games, setGames] = useState([]);
-  const [gamesIsLoading, setGamesIsLoading] = useState(true);
+  const [games, setGames] = React.useState([]);
+  const [gamesIsLoading, setGamesIsLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/games`)
       .then((response) => response.json())
       .then((data) => {
@@ -41,23 +41,33 @@ export const Join = () => {
   );
 };
 
-export const Register = (props) => {
+export const Register = ({
+  error,
+  onSubmit,
+  onNameChange,
+  name,
+}: {
+  error?: string;
+  onSubmit: () => void;
+  onNameChange: (name: string) => void;
+  name: string;
+}) => {
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        props.onSubmit(props.game);
+        onSubmit();
       }}
     >
-      {props.error && <Alert variant="danger">{props.error}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
       <Form.Group controlId="name">
         <Form.Label>Name</Form.Label>
         <Form.Control
           required
           onChange={(e) => {
-            props.onNameChange(e.target.value);
+            onNameChange(e.target.value);
           }}
-          value={props.name}
+          value={name}
           type="text"
           placeholder="Name"
         />

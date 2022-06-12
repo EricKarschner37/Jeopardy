@@ -2,17 +2,22 @@ import React from "react";
 import QRCode from "qrcode.react";
 import { useParams } from "react-router-dom";
 
-const Console = (props) => {
-  const { num } = useParams();
+type ConsoleProps = {
+  beginNextRound: () => void;
+  nextRound: string;
+};
+
+const Console = ({ beginNextRound, nextRound }: ConsoleProps) => {
+  const { num } = useParams<{ num: string }>();
 
   return (
     <div className="center console">
       <button
         type="button"
         className="btn btn-primary"
-        onClick={props.beginNextRound}
+        onClick={beginNextRound}
       >
-        Begin {props.nextRound}
+        Begin {nextRound}
       </button>
       <a
         href={`${window.location.protocol}//${window.location.host}/${num}/play`}

@@ -1,39 +1,48 @@
-import Board from "./Board";
-import PlayerDisplay from "./PlayerDisplay";
-import Console from "./Console.js";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import React, { useState } from "react";
-import useSocket from "../../util/sockets";
+import * as React from "react";
 import { useParams } from "react-router-dom";
+import {
+  GameState,
+  PlayerData,
+  SocketMessage,
+} from "components/play/play.types";
+import {
+  getGameStateFromSocketMessage,
+  isSocketMessageCategories,
+  isSocketMessageState,
+} from "components/play/play.util";
+import { SocketPayload } from "util/sockets.types";
+import useSocket from "util/use-socket";
+import Board from "components/board/Board";
+import PlayerDisplay from "components/board/PlayerDisplay";
+import Console from "components/board/Console";
 
-const Game = (props) => {
-  const [categories, setCategories] = useState([]);
-  const [clueShown, setClueShown] = useState(false);
-  const [answerShown, setAnswerShown] = useState(false);
-  const [clue, setClue] = useState("");
-  const [response, setResponse] = useState("");
-  const [squareClicked, setClickedSquares] = useState(
+export type GameProps = { gameNum: string };
+
+const Game = ({ gameNum }: GameProps) => {
+  const [categories, setCategories] = React.useState<string[]>([]);
+  const [clueShown, setClueShown] = React.useState(false);
+  const [answerShown, setAnswerShown] = React.useState(false);
+  const [clue, setClue] = React.useState("");
+  const [response, setResponse] = React.useState("");
+  const [squareClicked, setClickedSquares] = React.useState(
     Array(5).fill(Array(6).fill(false))
   );
-  const [players, setPlayers] = useState([]);
-  const [cost, setCost] = useState(0);
-  const [doubleJeopardy, setDoubleJeopardy] = useState(false);
+  const [players, setPlayers] = React.useState<PlayerData[]>([]);
+  const [cost, setCost] = React.useState<string | number>(0);
+  const [doubleJeopardy, setDoubleJeopardy] = React.useState(false);
 
-  const { num } = useParams();
+  const { num } = useParams<{ num: string }>();
 
-  const showState = (json) => {
+  const showState = (json: GameState) => {
     setClue(json.clue);
     setResponse(json.response);
     setCost(json.cost);
     setDoubleJeopardy(json.double);
 
-    setPlayers(
-      Object.entries(json.players).map(([name, obj]) => {
-        return { name: name, balance: obj.Points };
-      })
-    );
+    setPlayers(json.players);
 
     if (json.name === "clue") {
       setClueShown(true);
@@ -62,36 +71,34 @@ const Game = (props) => {
     }
   };
 
-  const handleMessage = React.useCallback((e) => {
-    const data = JSON.parse(e.data);
-    console.log(data);
-
-    if (data.message === "categories") {
-      setCategories(data.categories);
-    } else if (data.message === "state") {
-      showState(data);
-    }
-  });
-
-  const socket = useSocket(
-    `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
-    true,
-    () => {
-      console.log("socket opened!");
+  const handleMessage = React.useCallback(
+    (e: MessageEvent) => {
+      const data = JSON.parse(e.data);
+      console.log(JSON.stringify(data));
+      if (isSocketMessageCategories(data)) {
+        setCategories(data.categories);
+      } else if (isSocketMessageState(data)) {
+        showState(getGameStateFromSocketMessage(data));
+      }
     },
-    handleMessage
+    [setCategories, showState]
   );
+
+  const socket = useSocket({
+    url: `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
+    onMessage: handleMessage,
+  });
 
   if (!socket.isConnected) {
     return <h1>Loading...</h1>;
   }
 
-  const handleSquareClick = (row, col) => {
+  const handleSquareClick = (row: number, col: number) => {
     revealClue(row, col);
     setSquareClicked(row, col);
   };
 
-  const setSquareClicked = (row, col) => {
+  const setSquareClicked = (row: number, col: number) => {
     setClickedSquares([
       ...squareClicked.slice(0, row),
       [
@@ -103,7 +110,7 @@ const Game = (props) => {
     ]);
   };
 
-  const revealClue = (row, col) => {
+  const revealClue = (row: number, col: number) => {
     const data = {
       request: "reveal",
       row: row,
@@ -113,7 +120,7 @@ const Game = (props) => {
   };
 
   const handleDisplayClick = () => {
-    const data = {};
+    const data: SocketPayload = {};
     if (!answerShown && clue !== "Daily Double!") {
       data.request = "response";
     } else if (answerShown) {
@@ -126,7 +133,7 @@ const Game = (props) => {
     console.log("begin");
     const data = {
       request: "start_double",
-      game_num: props.number,
+      game_num: gameNum,
     };
 
     setClickedSquares(Array(5).fill(Array(6).fill(false)));
@@ -137,7 +144,7 @@ const Game = (props) => {
   const beginFinalJeopardy = () => {
     const data = {
       request: "start_final",
-      game_num: props.number,
+      game_num: gameNum,
     };
 
     socket.sendObject(data);
@@ -156,7 +163,7 @@ const Game = (props) => {
           squareClicked={squareClicked}
           onSquareClick={handleSquareClick}
           onDisplayClick={handleDisplayClick}
-          doubleJeopardy={doubleJeopardy}
+          double={doubleJeopardy}
         />
       </Row>
       <Row>
