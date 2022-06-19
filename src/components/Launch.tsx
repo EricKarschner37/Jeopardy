@@ -12,7 +12,7 @@ const Launch = ({ error }: { error?: string }) => {
     const msg = {
       num: parseInt(num),
     };
-    const url = `https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start`;
+    const url = `http://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start`;
     console.log(url);
     setIsLaunching(true);
     fetch(url, {

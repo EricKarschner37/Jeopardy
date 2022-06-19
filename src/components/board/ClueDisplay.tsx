@@ -1,3 +1,4 @@
+import { Flex } from "components/lib/Flex";
 import * as React from "react";
 import "./clue-display.scss";
 
@@ -23,8 +24,11 @@ export const ClueDisplay = ({
   return (
     <button className={BLOCK} onClick={onClick}>
       <div className={BLOCK}>
-        <p className={`${BLOCK}-category`}>{category}</p>
-        <p className={`${BLOCK}-cost`}>${cost}</p>
+        <p>
+          <span className={`${BLOCK}-cost`}>${cost}</span>
+          {"\t\t\t|\t\t\t"}
+          <span className={`${BLOCK}-category`}>{category}</span>
+        </p>
         <p className={`${BLOCK}-clue`}>{clue}</p>
         <p className={`${BLOCK}-response${!isResponseShown ? " hidden" : ""}`}>
           {response}
