@@ -1,13 +1,6 @@
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import {
-  GameState,
-  PlayerData,
-  SocketMessage,
-} from "components/play/play.types";
+import { GameState, PlayerData } from "components/play/play.types";
 import {
   getGameStateFromSocketMessage,
   isSocketMessageCategories,
@@ -18,8 +11,12 @@ import useSocket from "util/use-socket";
 import Board from "components/board/Board";
 import PlayerDisplay from "components/board/PlayerDisplay";
 import Console from "components/board/Console";
+import { Flex } from "components/lib/Flex";
+import "./game.scss";
 
 export type GameProps = { gameNum: string };
+
+const BLOCK = "game";
 
 const Game = ({ gameNum }: GameProps) => {
   const [categories, setCategories] = React.useState<string[]>([]);
@@ -33,14 +30,16 @@ const Game = ({ gameNum }: GameProps) => {
   const [players, setPlayers] = React.useState<PlayerData[]>([]);
   const [cost, setCost] = React.useState<string | number>(0);
   const [doubleJeopardy, setDoubleJeopardy] = React.useState(false);
+  const [category, setCategory] = React.useState("");
 
   const { num } = useParams<{ num: string }>();
 
-  const showState = (json: GameState) => {
+  const showState = React.useCallback((json: GameState) => {
     setClue(json.clue);
     setResponse(json.response);
     setCost(json.cost);
     setDoubleJeopardy(json.double);
+    setCategory(json.category);
 
     setPlayers(json.players);
 
@@ -69,7 +68,7 @@ const Game = ({ gameNum }: GameProps) => {
       setClueShown(false);
       setAnswerShown(false);
     }
-  };
+  }, []);
 
   const handleMessage = React.useCallback(
     (e: MessageEvent) => {
@@ -151,41 +150,30 @@ const Game = ({ gameNum }: GameProps) => {
   };
 
   return (
-    <Container className="center">
-      <Row className="board center">
-        <Board
-          categories={categories}
-          clueShown={clueShown}
-          answerShown={answerShown}
-          clue={clue}
-          response={response}
-          cost={cost}
-          squareClicked={squareClicked}
-          onSquareClick={handleSquareClick}
-          onDisplayClick={handleDisplayClick}
-          double={doubleJeopardy}
+    <div className={BLOCK}>
+      <Board
+        categories={categories}
+        clueShown={clueShown}
+        answerShown={answerShown}
+        clue={clue}
+        response={response}
+        category={category}
+        cost={cost}
+        squareClicked={squareClicked}
+        onSquareClick={handleSquareClick}
+        onDisplayClick={handleDisplayClick}
+        double={doubleJeopardy}
+      />
+      <Flex isMaxWidth direction="row" justify="space-evenly">
+        <PlayerDisplay socket={socket} players={players} />
+        <Console
+          beginNextRound={
+            doubleJeopardy ? beginFinalJeopardy : beginDoubleJeopardy
+          }
+          nextRound={doubleJeopardy ? "Final Jeopardy" : "Double Jeopardy"}
         />
-      </Row>
-      <Row>
-        <Col>
-          <PlayerDisplay socket={socket} players={players} />
-        </Col>
-        <Col>
-          {!doubleJeopardy && (
-            <Console
-              beginNextRound={beginDoubleJeopardy}
-              nextRound="Double Jeopardy"
-            />
-          )}
-          {doubleJeopardy && (
-            <Console
-              beginNextRound={beginFinalJeopardy}
-              nextRound="Final Jeopardy"
-            />
-          )}
-        </Col>
-      </Row>
-    </Container>
+      </Flex>
+    </div>
   );
 };
 

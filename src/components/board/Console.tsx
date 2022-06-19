@@ -1,6 +1,7 @@
 import React from "react";
 import QRCode from "qrcode.react";
 import { useParams } from "react-router-dom";
+import { Flex } from "components/lib/Flex";
 
 type ConsoleProps = {
   beginNextRound: () => void;
@@ -11,7 +12,7 @@ const Console = ({ beginNextRound, nextRound }: ConsoleProps) => {
   const { num } = useParams<{ num: string }>();
 
   return (
-    <div className="center console">
+    <Flex direction="column" align="center">
       <button
         type="button"
         className="btn btn-primary"
@@ -31,7 +32,7 @@ const Console = ({ beginNextRound, nextRound }: ConsoleProps) => {
         </div>
       </a>
       <p className="normal font-weight-light">Scan to join!</p>
-    </div>
+    </Flex>
   );
 };
 

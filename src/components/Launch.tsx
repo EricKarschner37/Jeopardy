@@ -32,7 +32,7 @@ const Launch = ({ error }: { error?: string }) => {
   };
 
   if (isLaunching) {
-    return <LoadingState title={`Fetching game#${num}`} />;
+    return <LoadingState title={`Fetching game #${num}`} />;
   }
 
   return (

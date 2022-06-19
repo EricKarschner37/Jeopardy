@@ -8,7 +8,7 @@ export type LoadingStateProps = {
 };
 
 export const LoadingState = ({ title, description }: LoadingStateProps) => (
-  <Flex direction="column" alignItems="center">
+  <Flex direction="column" align="center">
     <h3>{title}</h3>
     {description && (
       <p style={{ color: "grey", fontSize: "12px" }}>{description}</p>

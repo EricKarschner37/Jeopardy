@@ -1,6 +1,9 @@
-import Square from "./Square";
+import "./board.scss";
 import React from "react";
 import { GameState } from "components/play/play.types";
+import { Flex } from "components/lib/Flex";
+import { CategorySquare, Square } from "components/board/Square";
+import { ClueDisplay } from "components/board/ClueDisplay";
 
 type BoardProps = {
   categories: string[];
@@ -10,7 +13,9 @@ type BoardProps = {
   onDisplayClick: () => void;
   squareClicked: boolean[][];
   cost: number | string;
-} & Pick<GameState, "clue" | "response" | "double">;
+} & Pick<GameState, "clue" | "response" | "double" | "category">;
+
+const BLOCK = "board";
 
 const Board = ({
   double,
@@ -19,6 +24,7 @@ const Board = ({
   answerShown,
   clue,
   response,
+  category,
   cost,
   onSquareClick,
   onDisplayClick,
@@ -33,6 +39,7 @@ const Board = ({
     for (let j = 0; j < 6; j++) {
       clues.push(
         <Square
+          key={`${i}-${j}`}
           cost={getCostForRow(i)}
           onSquareClick={onSquareClick}
           row={i}
@@ -46,47 +53,24 @@ const Board = ({
 
   if (clueShown) {
     return (
-      <div
-        className="center clickable"
-        id="clue_display"
+      <ClueDisplay
+        cost={cost}
+        clue={clue}
+        response={response}
+        category={category}
+        isResponseShown={answerShown}
         onClick={onDisplayClick}
-      >
-        <p className="cost noselect">${cost}</p>
-        <p id="clue" className="noselect clickable">
-          {clue}
-        </p>
-        {answerShown && (
-          <p id="answer" className="noselect clickable">
-            {response}
-          </p>
-        )}
-        {!answerShown && (
-          <p id="answer" className="hidden noselect clickable">
-            {response}
-          </p>
-        )}
-      </div>
+      />
     );
   }
 
-  console.log(JSON.stringify(categories));
   return (
-    <table id="clue_table">
-      <tbody>
-        <tr>
-          {categories.map((category) => (
-            <th key={category} className="category noselect">
-              <p>
-                <strong>{category}</strong>
-              </p>
-            </th>
-          ))}
-        </tr>
-        {rows.map((row, index) => {
-          return <tr key={index}>{row}</tr>;
-        })}
-      </tbody>
-    </table>
+    <div className={BLOCK}>
+      {categories.map((category, index) => (
+        <CategorySquare category={category} key={index} />
+      ))}
+      {rows}
+    </div>
   );
 };
 

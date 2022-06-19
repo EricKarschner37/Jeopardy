@@ -5,7 +5,7 @@ import { Flex } from "../lib/Flex";
 import { LoadingState } from "../lib/LoadingState";
 
 export const Join = () => {
-  const [games, setGames] = React.useState([]);
+  const [games, setGames] = React.useState<number[]>([]);
   const [gamesIsLoading, setGamesIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -17,9 +17,10 @@ export const Join = () => {
       });
   }, []);
 
+  games.forEach((game) => console.log(typeof game));
+
   const buttons = games
-    .sort()
-    .reverse()
+    .sort((a, b) => b - a)
     .map((game) => (
       <Link key={game} style={{ marginBottom: "4dp" }} to={`/${game}/play`}>
         <Button>Game #{game}</Button>
@@ -31,7 +32,7 @@ export const Join = () => {
   }
 
   return (
-    <Flex direction="column" alignItems="flex-start">
+    <Flex direction="column" align="flex-start">
       <h3>Choose the Game Number from the board</h3>
       <p style={{ color: "grey", fontSize: "12px" }}>
         Don&apos;t have a game number? No problem! Just ask your host

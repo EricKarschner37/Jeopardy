@@ -1,0 +1,17 @@
+div.board_player-display {
+  display: grid;
+  grid-template: repeat(6, 32px) / 256px repeat(2, 128px);
+  grid-row-gap: 8px;
+
+  p.player {
+    width: 100%;
+    height: 100%;
+  }
+
+  button.danger {
+    background-color: #cc0000;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+  }
+}

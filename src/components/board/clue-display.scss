@@ -1,0 +1,25 @@
+button.board-clue-display {
+  background-color: var(--jeopardy-blue);
+  width: 100%;
+  height: 100%;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100%;
+
+    p {
+      font-size: 32px;
+      text-align: center;
+      text-overflow: ellipsis;
+      color: white;
+    }
+
+    p.board-clue-display-cost {
+      color: var(--cost-color);
+    }
+  }
+}

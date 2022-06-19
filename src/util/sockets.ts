@@ -45,8 +45,6 @@ export default function useSocket({
     }
   }, [queuedRequests, isConnected]);
 
-  console.log(isConnected);
-
   return React.useMemo(
     () => ({
       sendObject,

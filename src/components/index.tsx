@@ -5,9 +5,9 @@ import { Flex } from "./lib/Flex";
 
 const Index = () => {
   return (
-    <Flex flexDirection="column">
+    <Flex direction="column">
       <h3>Welcome to Jeopardy!</h3>
-      <Flex justifyContent="space-evenly">
+      <Flex direction="row" justify="space-evenly">
         <Link to="/play">
           <Button>Join a game</Button>
         </Link>

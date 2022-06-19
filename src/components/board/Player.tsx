@@ -10,18 +10,13 @@ const Player = ({
   remove: (p: PlayerData) => void;
 }) => {
   return (
-    <tr>
-      <td className="player">{player.name}</td>
-      <td className="player">{player.balance}</td>
-      <td
-        className="player"
-        style={{ paddingTop: "4px", paddingBottom: "4px" }}
-      >
-        <Button onClick={() => remove(player)} variant="danger">
-          Remove
-        </Button>
-      </td>
-    </tr>
+    <>
+      <p className="player">{player.name}</p>
+      <p className="player">{player.balance}</p>
+      <button onClick={() => remove(player)} className="danger">
+        Remove
+      </button>
+    </>
   );
 };
 

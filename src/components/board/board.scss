@@ -1,0 +1,5 @@
+div.board {
+  display: grid;
+  grid-template: 20% repeat(5, 1fr) / repeat(6, 1fr);
+  background-color: white;
+}

@@ -19,10 +19,7 @@ import "./App.css";
 
 function App() {
   return (
-    <Container
-      style={{ height: "90%" }}
-      className="d-flex justify-content-center"
-    >
+    <div className="global-root">
       <Router>
         <Switch>
           <Route path="/:num/play">
@@ -42,7 +39,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </Container>
+    </div>
   );
 }
 

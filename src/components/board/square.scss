@@ -1,0 +1,40 @@
+@mixin square-common() {
+  background-color: #060ce9;
+  border: 1px solid white;
+  padding: 12px;
+  max-height: 200px;
+
+  p {
+    font-size: 32px;
+    text-align: center;
+    text-overflow: ellipsis;
+  }
+}
+
+div.board-square {
+  @include square-common;
+
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    color: white;
+  }
+}
+
+button {
+  &.board-square {
+    @include square-common;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  p {
+    color: yellow;
+  }
+}

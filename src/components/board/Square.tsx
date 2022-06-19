@@ -1,4 +1,8 @@
+import { Flex } from "components/lib/Flex";
+import "./square.scss";
 import * as React from "react";
+
+const BLOCK = "board-square";
 
 type SquareProps = {
   row: number;
@@ -8,7 +12,17 @@ type SquareProps = {
   onSquareClick: (row: number, col: number) => void;
 };
 
-const Square = ({
+export const CategorySquare = ({ category }: { category: string }) => {
+  return (
+    <div className={BLOCK}>
+      <p>
+        <strong>{category}</strong>
+      </p>
+    </div>
+  );
+};
+
+export const Square = ({
   hasBeenClicked,
   onSquareClick,
   row,
@@ -19,21 +33,18 @@ const Square = ({
     if (!hasBeenClicked) onSquareClick(row, col);
   };
 
-  let pClasses = "cost noselect";
-  if (hasBeenClicked) {
-    pClasses += " clicked";
-  }
-
-  let tdClasses = "clue noselect";
-  if (hasBeenClicked) {
-    tdClasses += " clicked";
-  }
-
   return (
-    <td className={tdClasses} onClick={handleClick}>
-      <p className={pClasses}>{cost}</p>
-    </td>
+    <button
+      className={BLOCK}
+      disabled={hasBeenClicked}
+      type="button"
+      onClick={handleClick}
+    >
+      {!hasBeenClicked && (
+        <Flex isMaxWidth isMaxHeight justify="center" alignContent="center">
+          <p>{cost}</p>
+        </Flex>
+      )}
+    </button>
   );
 };
-
-export default Square;

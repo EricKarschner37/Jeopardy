@@ -1,102 +1,9 @@
-td.clue,
-th.category {
-  background-color: #060ce9;
-  text-align: center;
-  border: 1px solid white;
-  border-collapse: collapse;
-  padding: 8px;
-}
-
-td.clue {
-  cursor: pointer;
-}
-
-.clicked {
-  cursor: default;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-h1 {
-  margin-bottom: 48px;
-}
-
-p {
-  color: white;
-  font-size: 32px;
-  display: block;
-}
-
-p.normal {
-  color: black;
-  font-size: 24px;
-}
-
-p.cost {
-  color: yellow;
-  flex-grow: 1;
-}
-
-p.clicked {
-  color: #060ce9;
-}
-
-table#clue_table {
-  table-layout: fixed;
-  width: 100%;
+.global-root {
+  padding: 1%;
   height: 100%;
-}
-
-table#player {
-  min-width: 750px;
-  margin-top: 18px;
-}
-
-td.player {
-  border: 1px solid black;
-  border-collapse: collapse;
-  border-left: 0;
-  border-right: 0;
-}
-
-div#clue_display {
-  background-color: #060ce9;
   width: 100%;
-  height: 100%;
-}
-
-.hidden {
-  visibility: hidden;
-}
-
-.center {
-  text-align: center;
+  display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-div.console {
-  margin: 18px;
-}
-
-.justify-content-center {
-  text-align: center;
-}
-
-.container {
-  max-width: 95%;
-  height: 100%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  align-self: center;
-  justify-self: center;
-  margin-top: 32px;
-}
-
-.board {
-  height: 70vh;
 }
 
 div#root {
@@ -104,10 +11,6 @@ div#root {
   width: 100%;
   display: flex;
   align-items: center;
-}
-
-div.buzzed {
-  background-color: lightgreen;
 }
 
 .noselect {
@@ -123,4 +26,18 @@ div.buzzed {
 .bottom {
   position: absolute;
   bottom: 0;
+}
+
+:root {
+  --jeopardy-blue: #060ce9;
+  --cost-color: yellow;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+.hidden {
+  visibility: hidden;
 }
