@@ -1,0 +1,23 @@
+p.board_player-balance,
+input.board_player-balance {
+  width: 0px;
+  flex-grow: 1;
+}
+
+button.board_player-balance {
+  width: 24px;
+  height: 24px;
+}
+
+div.board_player-balance {
+  button {
+    visibility: hidden;
+  }
+
+  &:hover,
+  &:focus {
+    button {
+      visibility: visible;
+    }
+  }
+}
