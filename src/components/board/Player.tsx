@@ -1,21 +1,28 @@
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PlayerBalance } from "components/board/PlayerBalance/PlayerBalance";
 import { PlayerData } from "components/play/play.types";
 import React from "react";
-import { Button } from "react-bootstrap";
 
 const Player = ({
   player,
   remove,
+  setBalance,
 }: {
   player: PlayerData;
   remove: (p: PlayerData) => void;
+  setBalance: (p: PlayerData, newBalance: number) => void;
 }) => {
   return (
     <>
-      <p className="player">{player.name}</p>
-      <p className="player">{player.balance}</p>
       <button onClick={() => remove(player)} className="danger">
-        Remove
+        <FontAwesomeIcon icon={faXmark} />
       </button>
+      <p className="player">{player.name}</p>
+      <PlayerBalance
+        balance={player.balance}
+        onBalanceChanged={(num) => setBalance(player, num)}
+      />
     </>
   );
 };

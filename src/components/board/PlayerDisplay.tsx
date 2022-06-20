@@ -22,15 +22,30 @@ const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
     socket.sendObject(data);
   };
 
+  const setPlayerBalance = (player: PlayerData, newBalance: number) => {
+    const data = {
+      request: "set_player_balance",
+      name: player.name,
+      amount: newBalance,
+    };
+
+    socket.sendObject(data);
+  };
+
   return (
     <div className={BLOCK}>
+      <div />
       <h5 className="player">Player</h5>
       <h5 className="player">Balance</h5>
-      <div />
       {players
         .sort((a, b) => b.balance - a.balance)
         .map((player) => (
-          <Player key={player.name} remove={removePlayer} player={player} />
+          <Player
+            key={player.name}
+            remove={removePlayer}
+            player={player}
+            setBalance={setPlayerBalance}
+          />
         ))}
     </div>
   );

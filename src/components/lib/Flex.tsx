@@ -13,6 +13,7 @@ export type FlexProps = {
   isMaxWidth?: boolean;
   isMaxHeight?: boolean;
   className?: string;
+  gap?: string;
 } & any;
 
 export const Flex = ({
@@ -23,6 +24,7 @@ export const Flex = ({
   isMaxHeight = false,
   isMaxWidth = false,
   className,
+  gap,
   ...rest
 }: FlexProps) => {
   return (
@@ -35,6 +37,7 @@ export const Flex = ({
         justifyContent: justify,
         alignItems: align,
         flexDirection: direction,
+        gap,
       }}
       className={className}
     >
