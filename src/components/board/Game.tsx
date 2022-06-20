@@ -18,56 +18,55 @@ export type GameProps = { gameNum: string };
 
 const BLOCK = "game";
 
-const Game = ({ gameNum }: GameProps) => {
-  const [categories, setCategories] = React.useState<string[]>([]);
-  const [clueShown, setClueShown] = React.useState(false);
-  const [answerShown, setAnswerShown] = React.useState(false);
-  const [clue, setClue] = React.useState("");
-  const [response, setResponse] = React.useState("");
-  const [squareClicked, setClickedSquares] = React.useState(
-    Array(5).fill(Array(6).fill(false))
-  );
-  const [players, setPlayers] = React.useState<PlayerData[]>([]);
-  const [cost, setCost] = React.useState<string | number>(0);
-  const [doubleJeopardy, setDoubleJeopardy] = React.useState(false);
-  const [category, setCategory] = React.useState("");
+export const hasClueBeenShown = (
+  row: number,
+  col: number,
+  hasClueBeenShownBitset: number
+): boolean => {
+  return ((1 << (row * 6 + col)) & hasClueBeenShownBitset) !== 0;
+};
 
+const Game = ({ gameNum }: GameProps) => {
+  const [state, setState] = React.useState<GameState>({
+    name: "board",
+    category: "",
+    clue: "",
+    response: "",
+    cost: 0,
+    selected_player: "",
+    players: [],
+    double: false,
+    hasClueBeenShownBitset: 0,
+  });
+  const [categories, setCategories] = React.useState<string[]>([]);
+  const clueShown = React.useMemo(() => state.name !== "board", [state.name]);
+  const answerShown = React.useMemo(
+    () => state.name == "response",
+    [state.name]
+  );
   const { num } = useParams<{ num: string }>();
 
   const showState = React.useCallback((json: GameState) => {
-    setClue(json.clue);
-    setResponse(json.response);
-    setCost(json.cost);
-    setDoubleJeopardy(json.double);
-    setCategory(json.category);
-
-    setPlayers(json.players);
-
-    if (json.name === "clue") {
-      setClueShown(true);
-      setAnswerShown(false);
-    } else if (json.name === "response") {
-      setClueShown(true);
-      setAnswerShown(true);
-    } else if (json.name === "daily_double") {
-      setClueShown(true);
-      setAnswerShown(false);
-      setClue("Daily Double!");
-      setCost("???");
-    } else if (json.name === "final") {
-      setClue(json.category);
-      setCost("???");
-      setClueShown(true);
-      setAnswerShown(false);
-    } else if (json.name === "final_clue") {
-      setClue(json.clue);
-      setCost("???");
-      setClueShown(true);
-      setAnswerShown(false);
-    } else {
-      setClueShown(false);
-      setAnswerShown(false);
-    }
+    const overrides =
+      json.name === "daily_double"
+        ? {
+            clue: "Daily Double!",
+            cost: "???",
+          }
+        : json.name === "final"
+        ? {
+            clue: "Enter your wager now!",
+            cost: "???",
+          }
+        : json.name === "final_clue"
+        ? {
+            cost: "???",
+          }
+        : {};
+    setState({
+      ...json,
+      ...overrides,
+    });
   }, []);
 
   const handleMessage = React.useCallback(
@@ -84,7 +83,7 @@ const Game = ({ gameNum }: GameProps) => {
   );
 
   const socket = useSocket({
-    url: `ws://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
+    url: `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
     onMessage: handleMessage,
   });
 
@@ -94,19 +93,6 @@ const Game = ({ gameNum }: GameProps) => {
 
   const handleSquareClick = (row: number, col: number) => {
     revealClue(row, col);
-    setSquareClicked(row, col);
-  };
-
-  const setSquareClicked = (row: number, col: number) => {
-    setClickedSquares([
-      ...squareClicked.slice(0, row),
-      [
-        ...squareClicked[row].slice(0, col),
-        true,
-        ...squareClicked[row].slice(col + 1),
-      ],
-      ...squareClicked.slice(row + 1),
-    ]);
   };
 
   const revealClue = (row: number, col: number) => {
@@ -120,12 +106,13 @@ const Game = ({ gameNum }: GameProps) => {
 
   const handleDisplayClick = () => {
     const data: SocketPayload = {};
-    if (!answerShown && clue !== "Daily Double!") {
+    if (state.name === "clue") {
       data.request = "response";
+      socket.sendObject(data);
     } else if (answerShown) {
       data.request = "board";
+      socket.sendObject(data);
     }
-    socket.sendObject(data);
   };
 
   const beginDoubleJeopardy = () => {
@@ -134,8 +121,6 @@ const Game = ({ gameNum }: GameProps) => {
       request: "start_double",
       game_num: gameNum,
     };
-
-    setClickedSquares(Array(5).fill(Array(6).fill(false)));
 
     socket.sendObject(data);
   };
@@ -155,22 +140,17 @@ const Game = ({ gameNum }: GameProps) => {
         categories={categories}
         clueShown={clueShown}
         answerShown={answerShown}
-        clue={clue}
-        response={response}
-        category={category}
-        cost={cost}
-        squareClicked={squareClicked}
         onSquareClick={handleSquareClick}
         onDisplayClick={handleDisplayClick}
-        double={doubleJeopardy}
+        {...state}
       />
       <Flex isMaxWidth direction="row" justify="space-evenly">
-        <PlayerDisplay socket={socket} players={players} />
+        <PlayerDisplay socket={socket} players={state.players} />
         <Console
           beginNextRound={
-            doubleJeopardy ? beginFinalJeopardy : beginDoubleJeopardy
+            state.double ? beginFinalJeopardy : beginDoubleJeopardy
           }
-          nextRound={doubleJeopardy ? "Final Jeopardy" : "Double Jeopardy"}
+          nextRound={state.double ? "Final Jeopardy" : "Double Jeopardy"}
         />
       </Flex>
     </div>

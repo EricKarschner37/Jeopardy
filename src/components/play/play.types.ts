@@ -8,10 +8,13 @@ export type GameState = {
   category: string;
   clue: string;
   response: string;
-  cost: number;
+  cost: number | string;
   selected_player: string;
   players: PlayerData[];
   double: boolean;
+  // If the clue at row i, col j has been shown,
+  // then the 2^(i*6+j) bit is 1
+  hasClueBeenShownBitset: number;
 };
 
 export type SocketGameState = Omit<GameState, "players"> & {

@@ -4,6 +4,7 @@ import { GameState } from "components/play/play.types";
 import { Flex } from "components/lib/Flex";
 import { CategorySquare, Square } from "components/board/Square";
 import { ClueDisplay } from "components/board/ClueDisplay";
+import { hasClueBeenShown } from "components/board/Game";
 
 type BoardProps = {
   categories: string[];
@@ -11,9 +12,11 @@ type BoardProps = {
   answerShown: boolean;
   onSquareClick: (row: number, col: number) => void;
   onDisplayClick: () => void;
-  squareClicked: boolean[][];
   cost: number | string;
-} & Pick<GameState, "clue" | "response" | "double" | "category">;
+} & Pick<
+  GameState,
+  "clue" | "response" | "double" | "category" | "hasClueBeenShownBitset"
+>;
 
 const BLOCK = "board";
 
@@ -28,7 +31,7 @@ const Board = ({
   cost,
   onSquareClick,
   onDisplayClick,
-  squareClicked,
+  hasClueBeenShownBitset,
 }: BoardProps) => {
   const getCostForRow = (row: number) =>
     double ? (row + 1) * 400 : (row + 1) * 200;
@@ -44,7 +47,7 @@ const Board = ({
           onSquareClick={onSquareClick}
           row={i}
           col={j}
-          hasBeenClicked={squareClicked[i][j]}
+          hasBeenClicked={hasClueBeenShown(i, j, hasClueBeenShownBitset)}
         />
       );
     }
