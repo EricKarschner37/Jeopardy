@@ -70,6 +70,7 @@ export const PlayerBalance = ({
       <button
         className={BLOCK}
         onClick={() => {
+          setNewBalance(balance.toString());
           setIsEditing(true);
         }}
       >
