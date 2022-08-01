@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import { GameState, PlayerData } from "components/play/play.types";
+import { GameState } from "components/play/play.types";
 import {
   getGameStateFromSocketMessage,
   isSocketMessageCategories,
@@ -41,7 +41,7 @@ const Game = ({ gameNum }: GameProps) => {
   const [categories, setCategories] = React.useState<string[]>([]);
   const clueShown = React.useMemo(() => state.name !== "board", [state.name]);
   const answerShown = React.useMemo(
-    () => state.name == "response",
+    () => state.name === "response",
     [state.name]
   );
   const { num } = useParams<{ num: string }>();

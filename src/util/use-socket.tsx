@@ -13,8 +13,10 @@ export default function useSocket({
   const socket = React.useRef<WebSocket | null>(null);
   const [isConnected, setIsConnected] = React.useState(false);
 
-  const queueSend = (payload: SocketPayload) =>
-    setQueuedRequests([...queuedRequests, payload]);
+  const queueSend = React.useCallback(
+    (payload: SocketPayload) => setQueuedRequests([...queuedRequests, payload]),
+    [setQueuedRequests, queuedRequests]
+  );
 
   React.useEffect(() => {
     if (enabled && !isConnected) {
@@ -30,12 +32,12 @@ export default function useSocket({
 
       socket.current = sock;
     }
-  }, [url, enabled, isConnected]);
+  }, [url, enabled, isConnected, onConnect, onMessage]);
 
   const sendObject = React.useCallback(
     (obj: SocketPayload) =>
       isConnected ? socket.current?.send(JSON.stringify(obj)) : queueSend(obj),
-    [isConnected, socket.current?.send]
+    [isConnected, queueSend]
   );
 
   React.useEffect(() => {
@@ -43,7 +45,7 @@ export default function useSocket({
       sendObject(queuedRequests[0]);
       setQueuedRequests(queuedRequests.slice(1));
     }
-  }, [queuedRequests, isConnected]);
+  }, [queuedRequests, isConnected, sendObject]);
 
   console.log(isConnected);
 

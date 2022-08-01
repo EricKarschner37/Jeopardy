@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { isMobile } from "react-device-detect";
 import {
   BrowserRouter as Router,
@@ -12,7 +12,6 @@ import Game from "./components/board/Game";
 import Launch from "./components/Launch";
 import PlayerScreen from "./components/play/PlayerScreen";
 import { Join } from "./components/play/Join";
-import Container from "react-bootstrap/Container";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";

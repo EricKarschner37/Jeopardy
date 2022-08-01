@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   IconButton,
   IconButtonProps,
@@ -58,7 +57,7 @@ export const Table = <R extends unknown>({
           )}
         </tr>
       )),
-    [columns, rows]
+    [columns, rows, getActionButtons, rowActions]
   );
   return (
     <table className={BLOCK}>

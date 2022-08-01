@@ -1,17 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faPencil,
-  faTriangleExclamation,
-  faX,
-} from "@fortawesome/free-solid-svg-icons";
-import { Flex } from "components/lib/Flex";
+import { faCheck, faPencil, faX } from "@fortawesome/free-solid-svg-icons";
 import { PlayerData } from "components/play/play.types";
 import React from "react";
-import { PlayerSocket } from "util/playerSocket";
 import { Socket } from "util/sockets.types";
 import "./player-display.scss";
-import { PlayerBalance } from "components/board/PlayerBalance/PlayerBalance";
 import { Table, TableColumn } from "components/lib/Table";
 
 type PlayerDisplayProps = {
@@ -19,7 +10,7 @@ type PlayerDisplayProps = {
   players: PlayerData[];
 };
 
-const isValidBalance = (bal: string) => parseInt(bal) !== NaN;
+const isValidBalance = (bal: string) => !isNaN(parseInt(bal));
 
 const isValidBalanceDuringEditing = (bal: string) =>
   bal === "" || bal === "-" || isValidBalance(bal);
@@ -33,14 +24,17 @@ const playerNameColumn: TableColumn<PlayerData, string> = {
 };
 
 export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
-  const removePlayer = (player: string) => {
-    const data = {
-      request: "remove",
-      name: player,
-    };
+  const removePlayer = React.useCallback(
+    (player: string) => {
+      const data = {
+        request: "remove",
+        name: player,
+      };
 
-    socket.sendObject(data);
-  };
+      socket.sendObject(data);
+    },
+    [socket]
+  );
 
   const [playerBeingEdited, setPlayerBeingEdited] = React.useState<
     string | null
@@ -49,18 +43,18 @@ export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
     string | null
   >(null);
 
-  const setPlayerBalance = ({
-    name,
-    balance,
-  }: Pick<PlayerData, "name" | "balance">) => {
-    const data = {
-      request: "set_player_balance",
-      amount: balance,
-      name,
-    };
+  const setPlayerBalance = React.useCallback(
+    ({ name, balance }: Pick<PlayerData, "name" | "balance">) => {
+      const data = {
+        request: "set_player_balance",
+        amount: balance,
+        name,
+      };
 
-    socket.sendObject(data);
-  };
+      socket.sendObject(data);
+    },
+    [socket]
+  );
 
   const submitNewPlayerBalance = React.useCallback(() => {
     if (balanceBeingEdited && isValidBalance(balanceBeingEdited)) {
@@ -113,9 +107,9 @@ export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
       },
     }),
     [
+      submitNewPlayerBalance,
       playerBeingEdited,
       balanceBeingEdited,
-      setPlayerBalance,
       setPlayerBeingEdited,
       setBalanceBeingEdited,
     ]
@@ -150,7 +144,12 @@ export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
           ]
         : []),
     ],
-    [playerBeingEdited, setPlayerBeingEdited, submitNewPlayerBalance]
+    [
+      removePlayer,
+      playerBeingEdited,
+      setPlayerBeingEdited,
+      submitNewPlayerBalance,
+    ]
   );
 
   return (

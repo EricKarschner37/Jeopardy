@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GameState } from "components/play/play.types";
 import useSocket from "util/use-socket";
-import { Socket, SocketPayload } from "util/sockets.types";
+import { Socket } from "util/sockets.types";
 
 export type PlayerSocket = Socket & {
   buzz: () => void;

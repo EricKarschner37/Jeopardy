@@ -1,7 +1,6 @@
 import "./board.scss";
-import React from "react";
+import * as React from "react";
 import { GameState } from "components/play/play.types";
-import { Flex } from "components/lib/Flex";
 import { CategorySquare, Square } from "components/board/Square";
 import { ClueDisplay } from "components/board/ClueDisplay";
 import { hasClueBeenShown } from "components/board/Game";
