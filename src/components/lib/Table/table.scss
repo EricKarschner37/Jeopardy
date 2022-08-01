@@ -1,0 +1,22 @@
+table.lib_table {
+  height: 100%;
+  width: 100%;
+
+  table-layout: fixed;
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.lib_table--row {
+  td.lib_table_action-buttons {
+    opacity: 0;
+  }
+
+  &:hover {
+    td.lib_table_action-buttons {
+      opacity: 1;
+    }
+  }
+}

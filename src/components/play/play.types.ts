@@ -1,6 +1,7 @@
 export type PlayerData = {
   name: string;
   balance: number;
+  isConnected: boolean;
 };
 
 export type GameState = {
@@ -23,6 +24,7 @@ export type SocketGameState = Omit<GameState, "players"> & {
     {
       Points: number;
       Name: string;
+      Conn: {} | null;
     }
   >;
 };

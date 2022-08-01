@@ -12,9 +12,10 @@ export const getGameStateFromSocketMessage = ({
   console.log(JSON.stringify(players));
   return {
     ...rest,
-    players: Object.values(players).map(({ Name, Points }) => ({
+    players: Object.values(players).map(({ Name, Points, Conn }) => ({
       name: Name,
       balance: Points,
+      isConnected: Conn !== null,
     })),
   };
 };

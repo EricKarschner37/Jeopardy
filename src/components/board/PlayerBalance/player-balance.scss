@@ -4,14 +4,13 @@ input.board_player-balance {
   flex-grow: 1;
 }
 
-button.board_player-balance {
-  width: 24px;
-  height: 24px;
-}
-
 div.board_player-balance {
   button {
     visibility: hidden;
+  }
+
+  p {
+    line-height: 100%;
   }
 
   &:hover,

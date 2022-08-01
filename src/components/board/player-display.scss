@@ -1,6 +1,6 @@
 div.board_player-display {
   display: grid;
-  grid-template: repeat(6, 24px) / 24px 128px 128px;
+  grid-template: repeat(6, 24px) / 16px 128px 128px;
   grid-row-gap: 8px;
   grid-column-gap: 8px;
 
@@ -10,7 +10,14 @@ div.board_player-display {
   }
 
   button {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    padding: 0;
+    line-height: 0px;
   }
+}
+
+.board_player-display--edit-balance {
+  width: 100%;
 }

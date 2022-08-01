@@ -31,15 +31,12 @@ div#root {
 :root {
   --jeopardy-blue: #060ce9;
   --cost-color: yellow;
-}
 
-button {
-  all: unset;
-  cursor: pointer;
-  color: white;
-  text-align: center;
-  border-radius: 6px;
-  background-color: #0000cc;
+  --size-xs: 8px;
+  --size-sm: 16px;
+  --size-md: 24px;
+  --size-lg: 32px;
+  --size-xl: 40px;
 }
 
 button.danger {
