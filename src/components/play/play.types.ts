@@ -1,30 +1,30 @@
 export type PlayerData = {
   name: string;
   balance: number;
-  isConnected: boolean;
 };
 
 export type GameState = {
-  name: string;
+  state_type: string;
   category: string;
   clue: string;
   response: string;
   cost: number | string;
-  selected_player: string;
+  buzzed_player: string;
+  active_player: string;
   players: PlayerData[];
   double: boolean;
   // If the clue at row i, col j has been shown,
   // then the 2^(i*6+j) bit is 1
-  hasClueBeenShownBitset: number;
+  clues_shown: number;
 };
 
 export type SocketGameState = Omit<GameState, "players"> & {
+  round: "Double" | "Single" | "Final";
   players: Record<
     string,
     {
-      Points: number;
-      Name: string;
-      Conn: {} | null;
+      name: string;
+      balance: number;
     }
   >;
 };

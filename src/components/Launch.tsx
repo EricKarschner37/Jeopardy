@@ -9,24 +9,20 @@ const Launch = ({ error }: { error?: string }) => {
   const [isLaunching, setIsLaunching] = useState(false);
 
   const startGame = () => {
-    const msg = {
-      num: parseInt(num),
-    };
-    const url = `https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start`;
+    const url = `http://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start/${num}`;
     console.log(url);
     setIsLaunching(true);
     fetch(url, {
       method: "POST",
-      body: JSON.stringify(msg),
     })
       .then((response) => {
-        console.log(response);
+        console.log(response.body);
         return response;
       })
       .then((response) => response.json())
       .then((json) =>
         window.location.assign(
-          `${window.location.protocol}//${window.location.host}/${json["gameNum"]}/board`
+          `${window.location.protocol}//${window.location.host}/${json["game_idx"]}/board`
         )
       );
   };

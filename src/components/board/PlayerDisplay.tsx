@@ -24,6 +24,7 @@ const playerNameColumn: TableColumn<PlayerData, string> = {
 };
 
 export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
+  console.log(JSON.stringify(players));
   const removePlayer = React.useCallback(
     (player: string) => {
       const data = {

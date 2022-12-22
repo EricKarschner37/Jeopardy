@@ -19,21 +19,23 @@ const Play = ({ name, gameNum }: PlayProps) => {
 
   const showState = (json: GameState) => {
     setClue(
-      json.name === "daily_double"
+      json.state_type === "DailyDouble"
         ? "Daily Double!"
-        : json.name === "final"
+        : json.state_type === "final"
         ? json.category
         : json.clue
     );
     setAnswer(
-      json.name === "response" || json.name === "board" ? json.response : ""
+      json.state_type === "Response" || json.state_type === "Board"
+        ? json.response
+        : ""
     );
-    setBuzzed(json.name === "clue" && json.selected_player === name);
+    setBuzzed(json.state_type === "Clue" && json.buzzed_player === name);
     setNeedWager(
-      json.name === "final" ||
-        (json.name === "daily_double" && json.selected_player === name)
+      json.state_type === "FinalWager" ||
+        (json.state_type === "DailyDouble" && json.active_player === name)
     );
-    setNeedResponse(json.name === "final_clue");
+    setNeedResponse(json.state_type === "FinalClue");
   };
 
   const socket = usePlayerSocket({ name, gameNum, handleState: showState });

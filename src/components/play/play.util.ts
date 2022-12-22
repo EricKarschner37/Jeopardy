@@ -7,16 +7,13 @@ import {
 
 export const getGameStateFromSocketMessage = ({
   players,
+  round,
   ...rest
 }: SocketGameState) => {
-  console.log(JSON.stringify(players));
   return {
     ...rest,
-    players: Object.values(players).map(({ Name, Points, Conn }) => ({
-      name: Name,
-      balance: Points,
-      isConnected: Conn !== null,
-    })),
+    double: round == "Double",
+    players: Object.values(players),
   };
 };
 

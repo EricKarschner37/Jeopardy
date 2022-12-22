@@ -19,8 +19,7 @@ export const usePlayerSocket = ({
   handleState: (state: GameState) => void;
 }): PlayerSocket => {
   const url = React.useMemo(
-    () =>
-      `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${gameNum}/buzzer`,
+    () => `ws://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${gameNum}/buzzer`,
     [gameNum]
   );
   const socket = useSocket({

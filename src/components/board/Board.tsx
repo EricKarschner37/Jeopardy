@@ -14,7 +14,7 @@ type BoardProps = {
   cost: number | string;
 } & Pick<
   GameState,
-  "clue" | "response" | "double" | "category" | "hasClueBeenShownBitset"
+  "clue" | "response" | "double" | "category" | "clues_shown"
 >;
 
 const BLOCK = "board";
@@ -30,7 +30,7 @@ const Board = ({
   cost,
   onSquareClick,
   onDisplayClick,
-  hasClueBeenShownBitset,
+  clues_shown,
 }: BoardProps) => {
   const getCostForRow = (row: number) =>
     double ? (row + 1) * 400 : (row + 1) * 200;
@@ -46,7 +46,7 @@ const Board = ({
           onSquareClick={onSquareClick}
           row={i}
           col={j}
-          hasBeenClicked={hasClueBeenShown(i, j, hasClueBeenShownBitset)}
+          hasBeenClicked={hasClueBeenShown(i, j, clues_shown)}
         />
       );
     }

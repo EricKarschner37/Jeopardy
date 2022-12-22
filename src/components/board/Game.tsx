@@ -28,37 +28,42 @@ export const hasClueBeenShown = (
 
 const Game = ({ gameNum }: GameProps) => {
   const [state, setState] = React.useState<GameState>({
-    name: "board",
+    state_type: "Board",
     category: "",
     clue: "",
     response: "",
     cost: 0,
-    selected_player: "",
+    buzzed_player: "",
+    active_player: "",
     players: [],
     double: false,
-    hasClueBeenShownBitset: 0,
+    clues_shown: 0,
   });
   const [categories, setCategories] = React.useState<string[]>([]);
-  const clueShown = React.useMemo(() => state.name !== "board", [state.name]);
+  console.log(categories);
+  const clueShown = React.useMemo(
+    () => state.state_type !== "Board",
+    [state.state_type]
+  );
   const answerShown = React.useMemo(
-    () => state.name === "response",
-    [state.name]
+    () => state.state_type === "Response",
+    [state.state_type]
   );
   const { num } = useParams<{ num: string }>();
 
   const showState = React.useCallback((json: GameState) => {
     const overrides =
-      json.name === "daily_double"
+      json.state_type === "DailyDouble"
         ? {
             clue: "Daily Double!",
             cost: "???",
           }
-        : json.name === "final"
+        : json.state_type === "FinalWager"
         ? {
             clue: "Enter your wager now!",
             cost: "???",
           }
-        : json.name === "final_clue"
+        : json.state_type === "FinalClue"
         ? {
             cost: "???",
           }
@@ -71,6 +76,7 @@ const Game = ({ gameNum }: GameProps) => {
 
   const handleMessage = React.useCallback(
     (e: MessageEvent) => {
+      console.log("Received message");
       const data = JSON.parse(e.data);
       console.log(JSON.stringify(data));
       if (isSocketMessageCategories(data)) {
@@ -83,7 +89,7 @@ const Game = ({ gameNum }: GameProps) => {
   );
 
   const socket = useSocket({
-    url: `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
+    url: `ws://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
     onMessage: handleMessage,
   });
 
@@ -106,7 +112,7 @@ const Game = ({ gameNum }: GameProps) => {
 
   const handleDisplayClick = () => {
     const data: SocketPayload = {};
-    if (state.name === "clue") {
+    if (state.state_type === "Clue") {
       data.request = "response";
       socket.sendObject(data);
     } else if (answerShown) {
