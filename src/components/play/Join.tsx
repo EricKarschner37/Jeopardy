@@ -9,7 +9,7 @@ export const Join = () => {
   const [gamesIsLoading, setGamesIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch(`http://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/games`)
+    fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/games`)
       .then((response) => response.json())
       .then((data) => {
         setGames(data);

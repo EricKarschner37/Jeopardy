@@ -9,7 +9,7 @@ const Launch = ({ error }: { error?: string }) => {
   const [isLaunching, setIsLaunching] = useState(false);
 
   const startGame = () => {
-    const url = `http://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start/${num}`;
+    const url = `https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/start/${num}`;
     console.log(url);
     setIsLaunching(true);
     fetch(url, {
