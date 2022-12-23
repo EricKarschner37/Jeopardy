@@ -1,9 +1,11 @@
 import { GameState } from "components/play/play.types";
+import { PlayerName } from "components/play/PlayerName/PlayerName";
 import * as React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { usePlayerSocket } from "../../util/playerSocket";
 import { LoadingState } from "../lib/LoadingState";
+import "./play.scss";
 
 type PlayProps = {
   name: string;
@@ -13,7 +15,7 @@ type PlayProps = {
 const Play = ({ name, gameNum }: PlayProps) => {
   const [clue, setClue] = React.useState("Welcome to Jeopardy!");
   const [answer, setAnswer] = React.useState("");
-  const [buzzed, setBuzzed] = React.useState(false);
+  const [playerBuzzed, setPlayerBuzzed] = React.useState<string | null>(null);
   const [needWager, setNeedWager] = React.useState(false);
   const [needResponse, setNeedResponse] = React.useState(false);
 
@@ -30,7 +32,7 @@ const Play = ({ name, gameNum }: PlayProps) => {
         ? json.response
         : ""
     );
-    setBuzzed(json.state_type === "Clue" && json.buzzed_player === name);
+    setPlayerBuzzed(json.buzzed_player);
     setNeedWager(
       json.state_type === "FinalWager" ||
         (json.state_type === "DailyDouble" && json.active_player === name)
@@ -53,11 +55,9 @@ const Play = ({ name, gameNum }: PlayProps) => {
       }}
       className="center container"
     >
-      <div className={buzzed ? "buzzed" : undefined}>
-        <h1 className="name text-weight-bold">{name}</h1>
-        <p className="normal font-weight-normal">{clue}</p>
-        <p className="normal font-weight-bold">{answer}</p>
-      </div>
+      <PlayerName name={name} playerBuzzed={playerBuzzed} />
+      <p className="normal font-weight-normal">{clue}</p>
+      <p className="normal font-weight-bold">{answer}</p>
       {!needWager && !needResponse && (
         <Button
           variant="primary"

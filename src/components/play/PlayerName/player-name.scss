@@ -1,0 +1,20 @@
+.play_playername--root {
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: var(--jeopardy-blue);
+  padding: 4px;
+  text-align: center;
+  opacity: 0.8;
+
+  &-buzzed {
+    opacity: 1;
+  }
+
+  &-disabled {
+    opacity: 0.6;
+  }
+}
+
+.play_playername--name {
+  color: white;
+}

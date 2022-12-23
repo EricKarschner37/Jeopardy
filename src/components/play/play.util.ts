@@ -12,7 +12,7 @@ export const getGameStateFromSocketMessage = ({
 }: SocketGameState) => {
   return {
     ...rest,
-    double: round == "Double",
+    double: round === "Double",
     players: Object.values(players),
   };
 };
