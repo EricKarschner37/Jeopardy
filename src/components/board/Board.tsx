@@ -12,15 +12,12 @@ type BoardProps = {
   onSquareClick: (row: number, col: number) => void;
   onDisplayClick: () => void;
   cost: number | string;
-} & Pick<
-  GameState,
-  "clue" | "response" | "double" | "category" | "clues_shown"
->;
+} & Pick<GameState, "clue" | "response" | "round" | "category" | "clues_shown">;
 
 const BLOCK = "board";
 
 const Board = ({
-  double,
+  round,
   categories,
   clueShown,
   answerShown,
@@ -33,7 +30,7 @@ const Board = ({
   clues_shown,
 }: BoardProps) => {
   const getCostForRow = (row: number) =>
-    double ? (row + 1) * 400 : (row + 1) * 200;
+    round == "double" ? (row + 1) * 400 : (row + 1) * 200;
 
   const rows = [];
   for (let i = 0; i < 5; i++) {

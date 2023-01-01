@@ -36,7 +36,7 @@ const Game = ({ gameNum }: GameProps) => {
     buzzed_player: "",
     active_player: "",
     players: [],
-    double: false,
+    round: "single",
     clues_shown: 0,
   });
   const [categories, setCategories] = React.useState<string[]>([]);
@@ -140,6 +140,12 @@ const Game = ({ gameNum }: GameProps) => {
     socket.sendObject(data);
   };
 
+  const endGame = () => {
+    fetch(`https://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/end/${num}`, {
+      method: "POST",
+    });
+  };
+
   return (
     <div className={BLOCK}>
       <Board
@@ -153,10 +159,20 @@ const Game = ({ gameNum }: GameProps) => {
       <Flex isMaxWidth direction="row" justify="space-evenly">
         <PlayerDisplay socket={socket} players={state.players} />
         <Console
-          beginNextRound={
-            state.double ? beginFinalJeopardy : beginDoubleJeopardy
+          roundAction={
+            state.round === "double"
+              ? beginFinalJeopardy
+              : state.round === "final"
+              ? endGame
+              : beginDoubleJeopardy
           }
-          nextRound={state.double ? "Final Jeopardy" : "Double Jeopardy"}
+          roundActionLabel={
+            state.round === "double"
+              ? "Begin Final Jeopardy"
+              : state.round === "single"
+              ? "Begin Double Jeopardy"
+              : "End Game"
+          }
         />
       </Flex>
     </div>

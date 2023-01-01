@@ -12,7 +12,7 @@ export type GameState = {
   buzzed_player: string;
   active_player: string;
   players: PlayerData[];
-  double: boolean;
+  round: "single" | "double" | "final";
   // If the clue at row i, col j has been shown,
   // then the 2^(i*6+j) bit is 1
   clues_shown: number;

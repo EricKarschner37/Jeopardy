@@ -4,21 +4,17 @@ import { useParams } from "react-router-dom";
 import { Flex } from "components/lib/Flex";
 
 type ConsoleProps = {
-  beginNextRound: () => void;
-  nextRound: string;
+  roundAction: () => void;
+  roundActionLabel: string;
 };
 
-const Console = ({ beginNextRound, nextRound }: ConsoleProps) => {
+const Console = ({ roundAction, roundActionLabel }: ConsoleProps) => {
   const { num } = useParams<{ num: string }>();
 
   return (
     <Flex direction="column" align="center">
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={beginNextRound}
-      >
-        Begin {nextRound}
+      <button type="button" className="btn btn-primary" onClick={roundAction}>
+        {roundActionLabel}
       </button>
       <a
         href={`${window.location.protocol}//${window.location.host}/${num}/play`}
