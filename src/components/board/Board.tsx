@@ -30,7 +30,7 @@ const Board = ({
   clues_shown,
 }: BoardProps) => {
   const getCostForRow = (row: number) =>
-    round == "double" ? (row + 1) * 400 : (row + 1) * 200;
+    round === "Double" ? (row + 1) * 400 : (row + 1) * 200;
 
   const rows = [];
   for (let i = 0; i < 5; i++) {

@@ -36,7 +36,7 @@ const Game = ({ gameNum }: GameProps) => {
     buzzed_player: "",
     active_player: "",
     players: [],
-    round: "single",
+    round: "Single",
     clues_shown: 0,
   });
   const [categories, setCategories] = React.useState<string[]>([]);
@@ -160,16 +160,16 @@ const Game = ({ gameNum }: GameProps) => {
         <PlayerDisplay socket={socket} players={state.players} />
         <Console
           roundAction={
-            state.round === "double"
+            state.round === "Double"
               ? beginFinalJeopardy
-              : state.round === "final"
+              : state.round === "Final"
               ? endGame
               : beginDoubleJeopardy
           }
           roundActionLabel={
-            state.round === "double"
+            state.round === "Double"
               ? "Begin Final Jeopardy"
-              : state.round === "single"
+              : state.round === "Single"
               ? "Begin Double Jeopardy"
               : "End Game"
           }

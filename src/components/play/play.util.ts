@@ -7,12 +7,10 @@ import {
 
 export const getGameStateFromSocketMessage = ({
   players,
-  round,
   ...rest
 }: SocketGameState) => {
   return {
     ...rest,
-    double: round === "Double",
     players: Object.values(players),
   };
 };

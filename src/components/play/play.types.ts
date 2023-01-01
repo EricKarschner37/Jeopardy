@@ -12,14 +12,13 @@ export type GameState = {
   buzzed_player: string;
   active_player: string;
   players: PlayerData[];
-  round: "single" | "double" | "final";
+  round: "Single" | "Double" | "Final";
   // If the clue at row i, col j has been shown,
   // then the 2^(i*6+j) bit is 1
   clues_shown: number;
 };
 
 export type SocketGameState = Omit<GameState, "players"> & {
-  round: "Double" | "Single" | "Final";
   players: Record<
     string,
     {
