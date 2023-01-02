@@ -38,6 +38,7 @@ const Game = ({ gameNum }: GameProps) => {
     players: [],
     round: "Single",
     clues_shown: 0,
+    buzzers_open: false,
   });
   const [categories, setCategories] = React.useState<string[]>([]);
   console.log(categories);

@@ -16,6 +16,7 @@ export type GameState = {
   // If the clue at row i, col j has been shown,
   // then the 2^(i*6+j) bit is 1
   clues_shown: number;
+  buzzers_open: boolean;
 };
 
 export type SocketGameState = Omit<GameState, "players"> & {
