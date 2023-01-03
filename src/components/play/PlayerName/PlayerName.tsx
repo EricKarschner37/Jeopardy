@@ -2,13 +2,7 @@ import { GameStateContext } from "components/play/Play";
 import * as React from "react";
 import "./player-name.scss";
 
-export const PlayerName = ({
-  name,
-  playerBuzzed,
-}: {
-  name: string;
-  playerBuzzed: string | null;
-}) => {
+export const PlayerName = ({ name }: { name: string }) => {
   const BLOCK = "play_playername";
 
   const state = React.useContext(GameStateContext);

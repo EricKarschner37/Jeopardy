@@ -38,6 +38,7 @@ const Play = ({ name, gameNum }: PlayProps) => {
   const [needResponse, setNeedResponse] = React.useState(false);
   const [showToast, setShowToast] = React.useState(false);
   const [toastMessage, setToastMessage] = React.useState("");
+  const [toastVariant, setToastVariant] = React.useState("bg-primary");
 
   const showState = (json: GameState) => {
     setClue(
@@ -64,6 +65,7 @@ const Play = ({ name, gameNum }: PlayProps) => {
   const handleWagerResponse = (valid: boolean, message: string) => {
     setToastMessage(message);
     setShowToast(true);
+    setToastVariant(valid ? "bg-success" : "bg-danger");
   };
 
   const socket = usePlayerSocket({
@@ -87,7 +89,7 @@ const Play = ({ name, gameNum }: PlayProps) => {
         }}
         className="center container"
       >
-        <PlayerName name={name} playerBuzzed={playerBuzzed} />
+        <PlayerName name={name} />
         <p className="normal font-weight-normal">{clue}</p>
         <p className="normal font-weight-bold">{answer}</p>
         <Toast
@@ -97,6 +99,7 @@ const Play = ({ name, gameNum }: PlayProps) => {
           }}
           show={showToast}
           delay={3000}
+          className={toastVariant}
           autohide
         >
           <Toast.Body style={{ height: "fit-content" }}>
