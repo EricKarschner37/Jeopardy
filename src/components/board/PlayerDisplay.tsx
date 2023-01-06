@@ -29,7 +29,7 @@ export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
     (player: string) => {
       const data = {
         request: "remove",
-        name: player,
+        player,
       };
 
       socket.sendObject(data);
@@ -49,7 +49,7 @@ export const PlayerDisplay = ({ socket, players }: PlayerDisplayProps) => {
       const data = {
         request: "set_player_balance",
         amount: balance,
-        name,
+        player: name,
       };
 
       socket.sendObject(data);
