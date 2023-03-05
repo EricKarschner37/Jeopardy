@@ -90,7 +90,7 @@ const Game = ({ gameNum }: GameProps) => {
   );
 
   const socket = useSocket({
-    url: `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${num}/board`,
+    url: `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/ws/${num}/board`,
     onMessage: handleMessage,
   });
 

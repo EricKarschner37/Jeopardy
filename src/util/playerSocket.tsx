@@ -22,7 +22,7 @@ export const usePlayerSocket = ({
 }): PlayerSocket => {
   const url = React.useMemo(
     () =>
-      `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/ws/${gameNum}/buzzer`,
+      `wss://${process.env.REACT_APP_WEBSOCKET_SERVER}/api/ws/${gameNum}/buzzer`,
     [gameNum]
   );
 
